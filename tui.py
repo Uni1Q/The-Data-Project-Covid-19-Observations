@@ -18,11 +18,15 @@ def welcome():
 
     :return: Does not return anything.
     """
+
     # TODO: Your code here
-    pass
+
+    print("---------------------")
+    print("Welcome to covid data visualization")
+    print("---------------------")
 
 
-def error(msg):
+def error(errorID):
     """
     Task 2: Display an error message.
 
@@ -34,7 +38,13 @@ def error(msg):
     :return: does not return anything
     """
     # TODO: Your code here
-    pass
+
+    if errorID == 1:
+        print("An unexpected error occurred!")
+    elif errorID == 2:
+        print("Given value is not an Integer! Please enter a valid number!")
+    elif errorID == 3:
+        print("Given value is outside of expected scope!")
 
 
 def progress(operation, value):
@@ -56,6 +66,9 @@ def progress(operation, value):
     :return: does not return anything
     """
     # TODO: Your code here
+
+    print(f"{operation, value}")
+
     pass
 
 
@@ -90,7 +103,21 @@ def menu(variant=0):
     :return: nothing if invalid selection otherwise an integer for a valid selection
     """
     # TODO: Your code here
-    pass
+
+    print("Please input what you'd like to do")
+    print("[1] Process Data")
+    print("[2] Visualize Data ")
+    print("[3] Export Data")
+    print("[4] Exit\n")
+    variant = int((input("User Input: ")))
+    errorCheck(variant)
+
+    if variant == 1:
+        print("\n[1] Record by Serial Number")
+        print("[2] Records by Observation Date")
+        print("[3] Group Records by Country/Region")
+        userSelection = int(input("\nUser Input: "))
+    elif variant == 2:
 
 
 def total_records(num_records):
