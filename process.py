@@ -26,13 +26,3 @@ The required functions are as follows:
 """
 
 # TODO: Your code here
-
-def errorCheck(variant):
-    if isinstance(variant, int) and 0 < variant < 5:
-        pass
-    elif not isinstance(variant, int):
-        errorId = 2
-    elif isinstance((variant, int)) and 0 > variant > 5:
-        errorId = 3
-    else:
-        errorId = 1

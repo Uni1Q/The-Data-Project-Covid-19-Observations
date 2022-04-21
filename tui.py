@@ -26,7 +26,7 @@ def welcome():
     print("---------------------")
 
 
-def error(errorID):
+def error(msg):
     """
     Task 2: Display an error message.
 
@@ -39,12 +39,7 @@ def error(errorID):
     """
     # TODO: Your code here
 
-    if errorID == 1:
-        print("An unexpected error occurred!")
-    elif errorID == 2:
-        print("Given value is not an Integer! Please enter a valid number!")
-    elif errorID == 3:
-        print("Given value is outside of expected scope!")
+    print(msg)
 
 
 def progress(operation, value):
@@ -72,7 +67,7 @@ def progress(operation, value):
     pass
 
 
-def menu(variant=0):
+def menu(variant):
     """
     Task 4: Display a menu of options and read the user's response.
 
@@ -109,15 +104,85 @@ def menu(variant=0):
     print("[2] Visualize Data ")
     print("[3] Export Data")
     print("[4] Exit\n")
-    variant = int((input("User Input: ")))
-    errorCheck(variant)
 
-    if variant == 1:
-        print("\n[1] Record by Serial Number")
-        print("[2] Records by Observation Date")
-        print("[3] Group Records by Country/Region")
-        userSelection = int(input("\nUser Input: "))
-    elif variant == 2:
+    while True:
+        errorOccured = False
+
+        try:
+            selection = int((input("User Input: ")))
+        except:
+            error("Only integers allowed, please enter a valid selection")
+            errorOccured = True
+
+        if errorOccured:
+            pass
+        elif 0 > selection > 5:
+            raise error("Integer is outside of expected range")
+        else:
+            break
+
+    while True:
+        errorOccured = False
+
+        if selection == 1:
+            print("\n[1] Record by Serial Number")
+            print("[2] Records by Observation Date")
+            print("[3] Group Records by Country/Region")
+            print("[4] Summarise Records")
+            try:
+                userSelection = int(input("\nUser Input: "))
+            except:
+                error("Only integers allowed, please enter a valid selection")
+                errorOccured = True
+
+            if errorOccured:
+                pass
+            elif 0 > selection > 5:
+                raise error("Integer is outside of expected range")
+            else:
+                variant = selection * 10 + userSelection
+                return variant
+                break
+        elif selection == 2:
+            print("\n[1] Country/Region Pie Chart")
+            print("[2] Observations Chart")
+            print("[3] Animated Summary")
+            try:
+                userSelection = int(input("\nUser Input: "))
+            except:
+                error("Only integers allowed, please enter a valid selection")
+                errorOccured = True
+
+            if errorOccured:
+                pass
+            elif 0 > selection > 4:
+                raise error("Integer is outside of expected range")
+            else:
+                variant = selection * 10 + userSelection
+                return variant
+                break
+        elif selection == 3:
+            print("\n[1] All Data")
+            print("[2] Data for Specific Country/Region")
+            try:
+                userSelection = int(input("\nUser Input: "))
+            except:
+                error("Only integers allowed, please enter a valid selection")
+                errorOccured = True
+
+            if errorOccured:
+                pass
+            elif 0 > selection > 3:
+                raise error("Integer is outside of expected range")
+            else:
+                variant = selection * 10 + userSelection
+                return variant
+                break
+        elif selection == 3:
+            variant = selection
+            return variant
+        else:
+            print("An unexpected error occurred in the file TUI.py")
 
 
 def total_records(num_records):
@@ -134,10 +199,11 @@ def total_records(num_records):
     :return: Does not return anything
     """
     # TODO: Your code here
-    pass
+
+    print(f"There are {num_records} records in the data set.")
 
 
-def serial_number():
+def serial_number(record_serial):
     """
     Task 6: Read in the serial number of a record and return the serial number.
 
@@ -147,10 +213,14 @@ def serial_number():
     :return: the serial number for a record
     """
     # TODO: Your code here
-    pass
+
+    try:
+        record_serial = int(input("Please enter the serial number for a record: "))
+    except:
+        error("Only integers allowed, please enter a valid selection")
 
 
-def observation_dates():
+def observation_dates(selected_date):
     """
     Task 7: Read in and return a list of observation dates.
 
@@ -162,7 +232,21 @@ def observation_dates():
     :return: a list of observation dates
     """
     # TODO: Your code here
-    pass
+
+    print("Please enter an observation day (please write single digit days with a zero e.g. 02):")
+
+    while True:
+        day = input("User input: ")
+        if 2 < len(day) < 0:
+            error("Given input is not 2 characters long")
+        try:
+            if 0 > int(day) > 31:
+                error("This day does not exist")
+        except:
+            error("Given input is not a digit")
+        else:
+            break
+
 
 
 def display_record(record, cols=None):

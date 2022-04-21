@@ -11,7 +11,7 @@ Note:   any user input/output should be done using the appropriate functions in 
 
 # Task 10: Import required modules
 # TODO: Your code here
-
+import tui as tui
 # Task 11: Create an empty list named 'covid_records'.
 # This will be used to store the data read from the source data file.
 # TODO: Your code here
@@ -21,7 +21,7 @@ def run():
     # Task 12: Call the function welcome of the module 'tui'.
     # This will display our welcome message when the program is executed.
     # TODO: Your code here
-
+    tui.welcome(variant)
     # Task 13: Load the data.
     # - Use the appropriate function in the module 'tui' to display a message to indicate that the data loading
     # operation has started.
