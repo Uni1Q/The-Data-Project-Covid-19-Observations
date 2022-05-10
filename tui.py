@@ -24,7 +24,6 @@ def welcome():
     print("Welcome to covid data visualization")
     print("---------------------")
 
-
 def error(msg):
     """
     Task 2: Display an error message.
@@ -105,11 +104,10 @@ def menu(variant):
     print("[4] Exit\n")
 
     selection = int((input("User Input: ")))
-    if variant in {1, 2, 3, 4}:
+    if selection in {1, 2, 3, 4}:
         pass
     else:
         error("Wrong input")
-
 
     if selection == 1:
         print("\n[1] Record by Serial Number")
@@ -237,14 +235,15 @@ def display_record(record, cols):
     """
     # TODO: Your code here
     record = int(input("Please provide an index for the column to be displayed"))
-    num_cols = int(input("How many columns should be displayed for given index (note: column range is 0-7?"))
+    num_cols = int(input("How many columns should be displayed for given index (0 if you want to display all the information for given record): "))
     if num_cols == 0:
-        return record
+        return record, cols
 
     cols = []
     loops = 0
+    print("Please enter which columns should be displayed (note: column range is 0-7)?")
     while loops != num_cols:
-        selection = int(input())
+        selection = int(input("Please enter selected column: "))
         if selection in {0, 1, 2, 3, 4, 5, 6, 7}:
             cols.append(selection)
             loops += 1
@@ -279,4 +278,26 @@ def display_records(records, cols):
     """
     # TODO: Your code here
 
-    
+    recordAmount = int(input("How many records to display? "))
+
+    records = []
+    cols = []
+    print("Enter the index of the records which should be displayed")
+    for i in range(recordAmount):
+        selection = int(input("Record index: "))
+        records.append(selection)
+
+    colAmount = int(input("How many columns should be displayed (0 if you want all the record information to be displayed): "))
+    if colAmount == 0:
+        return records, cols
+
+    print("Note, the range of columns is 0-7")
+    loops = 0
+    while loops != colAmount:
+        selection = int(input("Please enter selected column: "))
+        if selection in {0, 1, 2, 3, 4, 5, 6, 7}:
+            cols.append(selection)
+            loops += 1
+        else:
+            print("Selection outside of given range")
+    return records, cols
