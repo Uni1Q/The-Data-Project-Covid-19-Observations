@@ -14,6 +14,8 @@ Note:   any user input/output should be done using the appropriate functions in 
 
 import csv
 from tui import *
+from process import *
+from visual import *
 
 # Task 11: Create an empty list named 'covid_records'.
 # This will be used to store the data read from the source data file.
