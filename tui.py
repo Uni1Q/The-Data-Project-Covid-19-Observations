@@ -7,7 +7,6 @@ Any errors or invalid inputs should be handled appropriately.
 Please note that you do not need to read the data file or perform any other such processing in this module.
 """
 
-
 def welcome():
     """
     Task 1: Display a welcome message.
@@ -105,84 +104,55 @@ def menu(variant):
     print("[3] Export Data")
     print("[4] Exit\n")
 
-    while True:
-        errorOccured = False
+    selection = int((input("User Input: ")))
+    if variant in {1, 2, 3, 4}:
+        pass
+    else:
+        error("Wrong input")
 
-        try:
-            selection = int((input("User Input: ")))
-        except:
-            error("Only integers allowed, please enter a valid selection")
-            errorOccured = True
 
-        if errorOccured:
+    if selection == 1:
+        print("\n[1] Record by Serial Number")
+        print("[2] Records by Observation Date")
+        print("[3] Group Records by Country/Region")
+        print("[4] Summarise Records")
+
+        userSelection = int(input("\nUser Input: "))
+        if userSelection in {1, 2, 3, 4}:
             pass
-        elif 0 > selection > 5:
-            raise error("Integer is outside of expected range")
         else:
-            break
+            error("Wrong input")
 
-    while True:
-        errorOccured = False
+    elif selection == 2:
+        print("\n[1] Country/Region Pie Chart")
+        print("[2] Observations Chart")
+        print("[3] Animated Summary")
 
-        if selection == 1:
-            print("\n[1] Record by Serial Number")
-            print("[2] Records by Observation Date")
-            print("[3] Group Records by Country/Region")
-            print("[4] Summarise Records")
-            try:
-                userSelection = int(input("\nUser Input: "))
-            except:
-                error("Only integers allowed, please enter a valid selection")
-                errorOccured = True
-
-            if errorOccured:
-                pass
-            elif 0 > selection > 5:
-                raise error("Integer is outside of expected range")
-            else:
-                variant = selection * 10 + userSelection
-                return variant
-                break
-        elif selection == 2:
-            print("\n[1] Country/Region Pie Chart")
-            print("[2] Observations Chart")
-            print("[3] Animated Summary")
-            try:
-                userSelection = int(input("\nUser Input: "))
-            except:
-                error("Only integers allowed, please enter a valid selection")
-                errorOccured = True
-
-            if errorOccured:
-                pass
-            elif 0 > selection > 4:
-                raise error("Integer is outside of expected range")
-            else:
-                variant = selection * 10 + userSelection
-                return variant
-                break
-        elif selection == 3:
-            print("\n[1] All Data")
-            print("[2] Data for Specific Country/Region")
-            try:
-                userSelection = int(input("\nUser Input: "))
-            except:
-                error("Only integers allowed, please enter a valid selection")
-                errorOccured = True
-
-            if errorOccured:
-                pass
-            elif 0 > selection > 3:
-                raise error("Integer is outside of expected range")
-            else:
-                variant = selection * 10 + userSelection
-                return variant
-                break
-        elif selection == 3:
-            variant = selection
-            return variant
+        userSelection = int(input("\nUser Input: "))
+        if userSelection in {1, 2, 3}:
+            pass
         else:
-            print("An unexpected error occurred in the file TUI.py")
+            error("Wrong input")
+
+    elif selection == 3:
+        print("\n[1] All Data")
+        print("[2] Data for Specific Country/Region")
+
+        userSelection = int(input("\nUser Input: "))
+        if userSelection in {1, 2}:
+            pass
+        else:
+            error("Wrong input")
+
+    elif selection == 4:
+        variant = selection
+    else:
+        print("An unexpected error occurred in the file TUI.py")
+
+
+    variant = selection * 10 + userSelection
+
+    return variant
 
 
 def total_records(num_records):
@@ -213,11 +183,8 @@ def serial_number(record_serial):
     :return: the serial number for a record
     """
     # TODO: Your code here
-
-    try:
-        record_serial = int(input("Please enter the serial number for a record: "))
-    except:
-        error("Only integers allowed, please enter a valid selection")
+    record_serial = int(input("Please enter the serial number for a record: "))
+    return record_serial
 
 
 def observation_dates(selected_date):
@@ -233,23 +200,17 @@ def observation_dates(selected_date):
     """
     # TODO: Your code here
 
-    print("Please enter an observation day (please write single digit days with a zero e.g. 02):")
+    print("Please enter an observation day (please write single digit days and months with a zero e.g. 02):")
 
-    while True:
-        day = input("User input: ")
-        if 2 < len(day) < 0:
-            error("Given input is not 2 characters long")
-        try:
-            if 0 > int(day) > 31:
-                error("This day does not exist")
-        except:
-            error("Given input is not a digit")
-        else:
-            break
+    day = input("Enter day")
+    month = input("Enter month")
+    year = input("Enter year")
+
+    selected_date = day + "/" + month + "/" + year
+    return selected_date
 
 
-
-def display_record(record, cols=None):
+def display_record(record, cols):
     """
     Task 8: Display a record. Only the data for the specified column indexes will be displayed.
     If no column indexes have been specified, then all the data for the record will be displayed.
@@ -275,10 +236,23 @@ def display_record(record, cols=None):
     :return: Does not return anything
     """
     # TODO: Your code here
-    pass
+    record = int(input("Please provide an index for the column to be displayed"))
+    num_cols = int(input("How many columns should be displayed for given index (note: column range is 0-7?"))
+    if num_cols == 0:
+        return record
 
+    cols = []
+    loops = 0
+    while loops != num_cols:
+        selection = int(input())
+        if selection in {0, 1, 2, 3, 4, 5, 6, 7}:
+            cols.append(selection)
+            loops += 1
+        else:
+            print("Selection outside of given range")
+    return record, cols
 
-def display_records():
+def display_records(records, cols):
     """
     Task 9: Display each record in the specified list of records.
     Only the data for the specified column indexes will be displayed.
@@ -304,3 +278,5 @@ def display_records():
     :return: Does not return anything
     """
     # TODO: Your code here
+
+    
