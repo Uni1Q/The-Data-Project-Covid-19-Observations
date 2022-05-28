@@ -20,9 +20,9 @@ def welcome():
 
     # TODO: Your code here
 
-    print("---------------------")
+    print("-----------------------------------")
     print("Welcome to covid data visualization")
-    print("---------------------")
+    print("-----------------------------------")
 
 def error(msg):
     """
@@ -60,9 +60,7 @@ def progress(operation, value):
     """
     # TODO: Your code here
 
-    print(f"{operation, value}")
-
-    pass
+    print(operation, value)
 
 
 def menu(variant):
@@ -97,6 +95,7 @@ def menu(variant):
     """
     # TODO: Your code here
 
+    userSelection = 0
     print("Please input what you'd like to do")
     print("[1] Process Data")
     print("[2] Visualize Data ")
@@ -104,9 +103,7 @@ def menu(variant):
     print("[4] Exit\n")
 
     selection = int((input("User Input: ")))
-    if selection in {1, 2, 3, 4}:
-        pass
-    else:
+    if selection not in {1, 2, 3, 4}:
         error("Wrong input")
 
     if selection == 1:
@@ -116,9 +113,7 @@ def menu(variant):
         print("[4] Summarise Records")
 
         userSelection = int(input("\nUser Input: "))
-        if userSelection in {1, 2, 3, 4}:
-            pass
-        else:
+        if userSelection not in {1, 2, 3, 4}:
             error("Wrong input")
 
     elif selection == 2:
@@ -144,9 +139,9 @@ def menu(variant):
 
     elif selection == 4:
         variant = selection
+        return variant
     else:
         print("An unexpected error occurred in the file TUI.py")
-
 
     variant = selection * 10 + userSelection
 
@@ -171,7 +166,7 @@ def total_records(num_records):
     print(f"There are {num_records} records in the data set.")
 
 
-def serial_number(record_serial):
+def serial_number():
     """
     Task 6: Read in the serial number of a record and return the serial number.
 
@@ -208,7 +203,7 @@ def observation_dates(selected_date):
     return selected_date
 
 
-def display_record(record, cols):
+def display_record(record, cols = None):
     """
     Task 8: Display a record. Only the data for the specified column indexes will be displayed.
     If no column indexes have been specified, then all the data for the record will be displayed.
@@ -234,24 +229,40 @@ def display_record(record, cols):
     :return: Does not return anything
     """
     # TODO: Your code here
-    record = int(input("Please provide an index for the column to be displayed"))
-    num_cols = int(input("How many columns should be displayed for given index (0 if you want to display all the information for given record): "))
-    if num_cols == 0:
-        return record, cols
 
-    cols = []
-    loops = 0
-    print("Please enter which columns should be displayed (note: column range is 0-7)?")
-    while loops != num_cols:
-        selection = int(input("Please enter selected column: "))
-        if selection in {0, 1, 2, 3, 4, 5, 6, 7}:
-            cols.append(selection)
-            loops += 1
-        else:
-            print("Selection outside of given range")
-    return record, cols
+    record_serial = serial_number()
 
-def display_records(records, cols):
+    multiple_cols = input("Would you like to print all the columns? (y, n) ")
+
+    if multiple_cols.lower() == "n":
+        col_length = int(input("How many columns would you like to print? \nUser input: "))
+        cols = []
+        print("Which of those columns would you like to print? \nUser input: ")
+        tempVal = 0
+        while col_length != tempVal:
+            tempInput = int(input())
+            if tempInput in range(8):
+                cols.append(tempInput)
+                tempVal += 1
+            else:
+                print("Wrong input")
+    elif multiple_cols.lower() == "y":
+        pass
+    else:
+        error("Wrong Input!")
+
+    lst = list()
+
+    if cols:
+        for i in cols:
+            lst.append(record[i])
+        return lst
+    else:
+        return lst
+
+
+
+def display_records(record_by_date = None, record_by_serial = None, record_by_country = None):
     """
     Task 9: Display each record in the specified list of records.
     Only the data for the specified column indexes will be displayed.
@@ -278,26 +289,37 @@ def display_records(records, cols):
     """
     # TODO: Your code here
 
-    recordAmount = int(input("How many records to display? "))
+    if record_by_serial == True:
+        record_choice = serial_number()
+        display_record(record, cols = None)
+    elif record_by_date == True:
+        pass
+    elif record_by_country == True:
+        pass
+    else:
+        error("Unexpected error occurred, cannot record by given selection")
+        exit()
 
-    records = []
-    cols = []
-    print("Enter the index of the records which should be displayed")
-    for i in range(recordAmount):
-        selection = int(input("Record index: "))
-        records.append(selection)
 
-    colAmount = int(input("How many columns should be displayed (0 if you want all the record information to be displayed): "))
-    if colAmount == 0:
-        return records, cols
+    recordAmount = int(input("How many records to display by given index? Type 0 if you wish to display all records "))
+    if recordAmount == 0:
+        displayAllRecords = True
 
-    print("Note, the range of columns is 0-7")
+    num_cols = int(input("How many columns should be displayed for given index (0 if you want to display all the information for given record): "))
+    displayAllInfo = False
     loops = 0
-    while loops != colAmount:
-        selection = int(input("Please enter selected column: "))
-        if selection in {0, 1, 2, 3, 4, 5, 6, 7}:
-            cols.append(selection)
-            loops += 1
-        else:
-            print("Selection outside of given range")
-    return records, cols
+
+    if num_cols == 0:
+        displayAllInfo = True
+
+    if not displayAllInfo:
+        while loops != num_cols:
+            selection = int(input("Please enter selected column: "))
+            if selection in {0, 1, 2, 3, 4, 5, 6, 7}:
+                cols.append(selection)
+                loops += 1
+            else:
+                print("Selection outside of given range")
+
+    for i in range(recordAmount):
+        display_record(displayAllInfo)

@@ -8,7 +8,6 @@ Note:   any user input/output should be done using the appropriate functions in 
         any visualisation should be done using the appropriate functions in the module 'visual'
 """
 
-
 # Task 10: Import required modules
 # TODO: Your code here
 
@@ -23,13 +22,21 @@ from visual import *
 
 covid_records = []
 
+
+def data_read():
+    with open("data/covid_19_data.csv") as data:
+        reader = csv.reader(data)
+        for item in reader:
+            covid_records.append(item)
+
+    return covid_records
+
 def run():
     # Task 12: Call the function welcome of the module 'tui'.
     # This will display our welcome message when the program is executed.
     # TODO: Your code here
 
     welcome()
-
 
     # Task 13: Load the data.
     # - Use the appropriate function in the module 'tui' to display a message to indicate that the data loading
@@ -40,7 +47,9 @@ def run():
     # been loaded and that the data loading operation has completed.
     # TODO: Your code here
 
-
+    progress("Loading data", ", 0% done")
+    data_read()
+    progress("Loading data", ", 100% done")
 
     while True:
         # Task 14: Using the appropriate function in the module 'tui', display a menu of options
@@ -48,7 +57,7 @@ def run():
         # Assign the selected option to a suitable local variable
         # TODO: Your code here
         variant = 0
-        menu(variant)
+        user_choice = menu(variant)
 
         # Task 15: Check if the user selected the option for processing data.  If so, then do the following:
         # - Use the appropriate function in the module tui to display a message to indicate that the data processing
@@ -95,15 +104,16 @@ def run():
         #       process has completed.
         # TODO: Your code here
 
-        if variant == 11:
-            pass #process data, record by serial number
-        elif variant == 12:
-            pass #process data, records by observation date
-        elif variant == 13:
-            pass #process data, group records by country,region
-        elif variant == 14:
-            pass #process data, summarize records
-
+        if user_choice == 11:
+            # process data, records by serial
+            record = covid_records
+            print(display_record(record, cols = None))
+        elif user_choice == 12:
+            pass  # process data, records by observation date
+        elif user_choice == 13:
+            pass  # process data, group records by country,region
+        elif user_choice == 14:
+            pass  # process data, summarize records
 
         # Task 21: Check if the user selected the option for visualising data.
         # If so, then do the following:
@@ -116,12 +126,12 @@ def run():
         # data visualisation operation has completed.
         # TODO: Your code here
 
-        elif variant == 21:
-            pass #visualize data, Country/Region pie chart
-        elif variant == 22:
-            pass #visualize data, Observations Chart
-        elif variant == 23:
-            pass #visualize data, animated summary
+        elif user_choice == 21:
+            pass  # visualize data, Country/Region pie chart
+        elif user_choice == 22:
+            pass  # visualize data, Observations Chart
+        elif user_choice == 23:
+            pass  # visualize data, animated summary
 
         # Task 25: Check if the user selected the option for exporting data.  If so, then do the following:
         # - Use the appropriate function in the module 'tui' to retrieve the type of data to be exported.
@@ -136,17 +146,17 @@ def run():
         # You should use these to write the records (either all or only those for a specific country/region) to a JSON file.
         # TODO: Your code here
 
-        elif variant == 31:
-            pass #export data, all data
-        elif variant == 32:
-            pass #export data, Data for specific country/region
+        elif user_choice == 31:
+            pass  # export data, all data
+        elif user_choice == 32:
+            pass  # export data, Data for specific country/region
 
         # Task 26: Check if the user selected the option for exiting the program.
         # If so, then break out of the loop
         # TODO: Your code here
 
-        elif variant == 4:
-            pass #exit
+        elif user_choice == 4:
+            pass  # exit
 
         # Task 27: If the user selected an invalid option then use the appropriate function of the
         # module tui to display an error message
