@@ -233,11 +233,13 @@ def display_record(record, cols = None):
     record_serial = serial_number()
 
     multiple_cols = input("Would you like to print all the columns? (y, n) ")
-
+    line = []
+    line = record[record_serial]
+    line_print = []
     if multiple_cols.lower() == "n":
         col_length = int(input("How many columns would you like to print? \nUser input: "))
         cols = []
-        print("Which of those columns would you like to print? \nUser input: ")
+        print("Which columns would you like to print? \nUser input: ")
         tempVal = 0
         while col_length != tempVal:
             tempInput = int(input())
@@ -246,20 +248,15 @@ def display_record(record, cols = None):
                 tempVal += 1
             else:
                 print("Wrong input")
+
+        for x in cols:
+            line_print.append(line[x])
+
+        return line_print
     elif multiple_cols.lower() == "y":
-        pass
+        return line
     else:
         error("Wrong Input!")
-
-    lst = list()
-
-    if cols:
-        for i in cols:
-            lst.append(record[i])
-        return lst
-    else:
-        return lst
-
 
 
 def display_records(record_by_date = None, record_by_serial = None, record_by_country = None):

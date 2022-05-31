@@ -107,7 +107,7 @@ def run():
         if user_choice == 11:
             # process data, records by serial
             record = covid_records
-            print(display_record(record, cols = None))
+            print(display_record(record))
         elif user_choice == 12:
             pass  # process data, records by observation date
         elif user_choice == 13:
