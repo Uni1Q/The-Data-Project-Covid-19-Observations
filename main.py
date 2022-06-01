@@ -50,6 +50,7 @@ def run():
     progress("Loading data", ", 0% done")
     data_read()
     progress("Loading data", ", 100% done")
+    total_records()
 
     while True:
         # Task 14: Using the appropriate function in the module 'tui', display a menu of options
@@ -106,11 +107,15 @@ def run():
 
         if user_choice == 11:
             # process data, records by serial
-            record = covid_records
-            print(display_record(record))
+            records = covid_records
+            display_records(records, retrieval_type = 1)
         elif user_choice == 12:
-            pass  # process data, records by observation date
+            records = covid_records
+            print(display_records(records, retrieval_type = 2))
+            # process data, records by observation date
         elif user_choice == 13:
+            records = covid_records
+            print(display_records(records, retrieval_type = 3))
             pass  # process data, group records by country,region
         elif user_choice == 14:
             pass  # process data, summarize records

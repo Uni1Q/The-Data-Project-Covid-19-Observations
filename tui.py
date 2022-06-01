@@ -148,7 +148,7 @@ def menu(variant):
     return variant
 
 
-def total_records(num_records):
+def total_records():
     f"""
     Task 5: Display the total number of records in the data set.
     
@@ -180,7 +180,7 @@ def serial_number():
     return record_serial
 
 
-def observation_dates(selected_date):
+def observation_dates():
     """
     Task 7: Read in and return a list of observation dates.
 
@@ -193,14 +193,16 @@ def observation_dates(selected_date):
     """
     # TODO: Your code here
 
-    print("Please enter an observation day (please write single digit days and months with a zero e.g. 02):")
+    date_amount = int(input("Please input how many dates you'd like to print: "))
+    date_list = []
+    for i in range(date_amount):
+        temp_date = input("Please enter the date. Please use the format dd/mm/yyyy: ")
+        input_date_list = temp_date.split("/")
+        temp_date = input_date_list[1] + "/" + input_date_list[0] + "/" + input_date_list[2]
+        date_list.append(temp_date)
 
-    day = input("Enter day")
-    month = input("Enter month")
-    year = input("Enter year")
+    return date_list
 
-    selected_date = day + "/" + month + "/" + year
-    return selected_date
 
 
 def display_record(record, cols = None):
@@ -230,7 +232,16 @@ def display_record(record, cols = None):
     """
     # TODO: Your code here
 
-    record_serial = serial_number()
+    record_line = []
+
+    if not cols:
+        return record
+    else:
+        for x in cols:
+            record_line.append(record[x])
+    return record_line
+
+    '''record_serial = serial_number()
 
     multiple_cols = input("Would you like to print all the columns? (y, n) ")
     line = []
@@ -256,10 +267,10 @@ def display_record(record, cols = None):
     elif multiple_cols.lower() == "y":
         return line
     else:
-        error("Wrong Input!")
+        error("Wrong Input!")'''
 
 
-def display_records(record_by_date = None, record_by_serial = None, record_by_country = None):
+def display_records(records, retrieval_type):
     """
     Task 9: Display each record in the specified list of records.
     Only the data for the specified column indexes will be displayed.
@@ -286,37 +297,61 @@ def display_records(record_by_date = None, record_by_serial = None, record_by_co
     """
     # TODO: Your code here
 
-    if record_by_serial == True:
-        record_choice = serial_number()
-        display_record(record, cols = None)
-    elif record_by_date == True:
-        pass
-    elif record_by_country == True:
-        pass
-    else:
-        error("Unexpected error occurred, cannot record by given selection")
-        exit()
+    if retrieval_type == 1:
+        record_serial = serial_number()
+        record = records[record_serial]
+        multiple_cols = input("Would you like to print all the columns? (y, n) ")
+        if multiple_cols.lower() == "n":
+            col_length = int(input("How many columns would you like to print? \nUser input: "))
+            cols = []
+            print("Which columns would you like to print? \nUser input: ")
+            tempVal = 0
+            while col_length != tempVal:
+                tempInput = int(input())
+                if tempInput in range(8):
+                    cols.append(tempInput)
+                    tempVal += 1
+                else:
+                    print("Wrong input")
+            progress("Records retrieval process started ", " 0% done")
+            print(display_record(record, cols))
+            progress("Records retrieval process completed ", " 100% done")
 
+        elif multiple_cols == "y":
+            progress("Records retrieval process started ", " 0% done")
+            print(display_record(record))
+            progress("Records retrieval process completed ", " 100% done")
 
-    recordAmount = int(input("How many records to display by given index? Type 0 if you wish to display all records "))
-    if recordAmount == 0:
-        displayAllRecords = True
+    elif retrieval_type == 2:
+        date_list = observation_dates()
+        multiple_cols = input("Would you like to print all the columns? (y, n) ")
+        if multiple_cols.lower() == "n":
+            col_length = int(input("How many columns would you like to print? \nUser input: "))
+            cols = []
+            print("Which columns would you like to print? \nUser input: ")
+            tempVal = 0
+            while col_length != tempVal:
+                tempInput = int(input())
+                if tempInput in range(8):
+                    cols.append(tempInput)
+                    tempVal += 1
+                else:
+                    print("Wrong input")
+            print_list = []
+            progress("Records retrieval process started", " 0% done")
+            print_list_length = 0
+            for i in range(len(records)):
+                if records[i][1] in date_list:
+                    record = records[i]
+                    print(display_record(record, cols))
+            progress("Records retrieval process completed", " 100% done")
 
-    num_cols = int(input("How many columns should be displayed for given index (0 if you want to display all the information for given record): "))
-    displayAllInfo = False
-    loops = 0
+        elif multiple_cols.lower() == "y":
+            progress("Records retrieval process started", " 0% done")
+            for i in range(len(records)):
+                if records[i][1] in date_list:
+                    record = records[i]
+                    print(display_record(record))
+            progress("Records retrieval process completed ", " 100% done")
+    elif retrieval_type == 3:
 
-    if num_cols == 0:
-        displayAllInfo = True
-
-    if not displayAllInfo:
-        while loops != num_cols:
-            selection = int(input("Please enter selected column: "))
-            if selection in {0, 1, 2, 3, 4, 5, 6, 7}:
-                cols.append(selection)
-                loops += 1
-            else:
-                print("Selection outside of given range")
-
-    for i in range(recordAmount):
-        display_record(displayAllInfo)
