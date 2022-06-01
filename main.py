@@ -111,14 +111,15 @@ def run():
             display_records(records, retrieval_type = 1)
         elif user_choice == 12:
             records = covid_records
-            print(display_records(records, retrieval_type = 2))
+            display_records(records, retrieval_type = 2)
             # process data, records by observation date
         elif user_choice == 13:
             records = covid_records
-            print(display_records(records, retrieval_type = 3))
-            pass  # process data, group records by country,region
+            display_records(records, retrieval_type = 3)
+            # process data, group records by country,region
         elif user_choice == 14:
-            pass  # process data, summarize records
+            records = covid_records
+            display_summary(records)
 
         # Task 21: Check if the user selected the option for visualising data.
         # If so, then do the following:
@@ -155,14 +156,15 @@ def run():
             records = covid_records
             export_data(records, export_option = 1)
         elif user_choice == 32:
-            pass  # export data, Data for specific country/region
+            records = covid_records
+            export_data(records, export_option = 2)
 
         # Task 26: Check if the user selected the option for exiting the program.
         # If so, then break out of the loop
         # TODO: Your code here
 
         elif user_choice == 4:
-            pass  # exit
+            exit("Exiting Program")
 
         # Task 27: If the user selected an invalid option then use the appropriate function of the
         # module tui to display an error message
