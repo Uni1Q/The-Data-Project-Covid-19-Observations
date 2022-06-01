@@ -26,3 +26,17 @@ The required functions are as follows:
 """
 
 # TODO: Your code here
+
+import json
+from tui import *
+
+def export_data(records, export_option):
+
+    if export_option == 1:
+        progress("Exporting all data", " 0%\n")
+        del records[0]
+        with open("All_Data.json", "w") as dump:
+            json.dump(records, dump, indent = 2)
+        progress("Exporting all data", " 100%\n")
+
+    elif export_option == 2:

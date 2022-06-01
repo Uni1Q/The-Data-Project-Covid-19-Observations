@@ -47,10 +47,10 @@ def run():
     # been loaded and that the data loading operation has completed.
     # TODO: Your code here
 
-    progress("Loading data", ", 0% done")
+    progress("Loading data", ", 0% done\n")
     data_read()
-    progress("Loading data", ", 100% done")
-    total_records()
+    total_records(covid_records)
+    progress("Loading data", ", 100% done\n")
 
     while True:
         # Task 14: Using the appropriate function in the module 'tui', display a menu of options
@@ -152,7 +152,8 @@ def run():
         # TODO: Your code here
 
         elif user_choice == 31:
-            pass  # export data, all data
+            records = covid_records
+            export_data(records, export_option = 1)
         elif user_choice == 32:
             pass  # export data, Data for specific country/region
 

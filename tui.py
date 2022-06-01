@@ -132,6 +132,7 @@ def menu(variant):
         print("[2] Data for Specific Country/Region")
 
         userSelection = int(input("\nUser Input: "))
+        print("")
         if userSelection in {1, 2}:
             pass
         else:
@@ -148,21 +149,22 @@ def menu(variant):
     return variant
 
 
-def total_records():
+# noinspection PyUnresolvedReferences
+def total_records(covid_records):
     f"""
     Task 5: Display the total number of records in the data set.
     
     The function should display a message in the following format:
 
-    "There are {num_records} records in the data set."
+    "There are num_records records in the data set."
 
-    Where {num_records} is the value of the parameter passed to this function
+    Where num_records is the value of the parameter passed to this function
     
     :param num_records: the total number of records in the data set
     :return: Does not return anything
     """
     # TODO: Your code here
-
+    num_records = covid_records[-1][0]
     print(f"There are {num_records} records in the data set.")
 
 
@@ -203,7 +205,7 @@ def observation_dates():
 
     return date_list
 
-
+def observation_country
 
 def display_record(record, cols = None):
     """
@@ -241,33 +243,7 @@ def display_record(record, cols = None):
             record_line.append(record[x])
     return record_line
 
-    '''record_serial = serial_number()
 
-    multiple_cols = input("Would you like to print all the columns? (y, n) ")
-    line = []
-    line = record[record_serial]
-    line_print = []
-    if multiple_cols.lower() == "n":
-        col_length = int(input("How many columns would you like to print? \nUser input: "))
-        cols = []
-        print("Which columns would you like to print? \nUser input: ")
-        tempVal = 0
-        while col_length != tempVal:
-            tempInput = int(input())
-            if tempInput in range(8):
-                cols.append(tempInput)
-                tempVal += 1
-            else:
-                print("Wrong input")
-
-        for x in cols:
-            line_print.append(line[x])
-
-        return line_print
-    elif multiple_cols.lower() == "y":
-        return line
-    else:
-        error("Wrong Input!")'''
 
 
 def display_records(records, retrieval_type):
@@ -354,4 +330,5 @@ def display_records(records, retrieval_type):
                     print(display_record(record))
             progress("Records retrieval process completed ", " 100% done")
     elif retrieval_type == 3:
+        pass
 
