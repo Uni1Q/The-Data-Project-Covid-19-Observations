@@ -47,10 +47,10 @@ def run():
     # been loaded and that the data loading operation has completed.
     # TODO: Your code here
 
-    progress("Loading data", ", 0% done\n")
+    progress("Loading data", 0)
     data_read()
     total_records(covid_records)
-    progress("Loading data", ", 100% done\n")
+    progress("Loading data", 100)
 
     while True:
         # Task 14: Using the appropriate function in the module 'tui', display a menu of options

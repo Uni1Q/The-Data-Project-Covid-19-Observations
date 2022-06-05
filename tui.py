@@ -25,6 +25,7 @@ def welcome():
     print("Welcome to covid data visualization")
     print("-----------------------------------")
 
+
 def error(msg):
     """
     Task 2: Display an error message.
@@ -38,7 +39,7 @@ def error(msg):
     """
     # TODO: Your code here
 
-    print(msg)
+    print(f"Error! {msg}")
 
 
 def progress(operation, value):
@@ -61,7 +62,12 @@ def progress(operation, value):
     """
     # TODO: Your code here
 
-    print(operation, value)
+    if value == 0:
+        print(operation, " has started")
+    elif value in range(1, 100):
+        print(operation, f" is in progress ({value}% completed)")
+    elif value == 100:
+        print(operation, " has completed")
 
 
 def menu(variant):
@@ -97,15 +103,21 @@ def menu(variant):
     # TODO: Your code here
 
     userSelection = 0
+    print(" ")
     print("Please input what you'd like to do")
     print("[1] Process Data")
     print("[2] Visualize Data ")
     print("[3] Export Data")
     print("[4] Exit\n")
-
-    selection = int((input("User Input: ")))
-    if selection not in {1, 2, 3, 4}:
-        error("Wrong input")
+    while True:
+        try:
+            selection = int((input("User Input: ")))
+            if selection not in {1, 2, 3, 4}:
+                error("Wrong input")
+        except ValueError:
+            error("Wrong Value")
+        else:
+            break
 
     if selection == 1:
         print("\n[1] Record by Serial Number")
@@ -166,7 +178,7 @@ def total_records(covid_records):
     """
     # TODO: Your code here
     num_records = covid_records[-1][0]
-    print(f"There are {num_records} records in the data set.")
+    print(f"There are {num_records} records in the data set.\n")
 
 
 def serial_number():
@@ -325,14 +337,14 @@ def display_records(records, retrieval_type, record_country=None):
                     tempVal += 1
                 else:
                     print("Wrong input")
-            progress("Records retrieval process started", " 0% done")
+            progress("Records retrieval", 0)
             print(display_record(record, cols))
-            progress("Records retrieval process completed", " 100% done")
+            progress("Records retrieval", 100)
 
         elif multiple_cols == "y":
-            progress("Records retrieval process started", " 0% done")
+            progress("Records retrieval", 0)
             print(display_record(record))
-            progress("Records retrieval process completed", " 100% done")
+            progress("Records retrieval", 100)
 
     elif retrieval_type == 2:
         date_list = observation_dates()
@@ -350,21 +362,21 @@ def display_records(records, retrieval_type, record_country=None):
                     tempVal += 1
                 else:
                     error("Wrong input")
-            progress("Records retrieval process started", " 0% done")
+            progress("Records retrieval", 0)
             for i in range(len(records)):
                 if records[i][1] in date_list:
                     record = records[i]
                     print(display_record(record, cols))
-            progress("Records retrieval process completed", " 100% done")
+            progress("Records retrieval", 100)
 
         elif multiple_cols.lower() == "y":
 
-            progress("Records retrieval process started", " 0% done")
+            progress("Records retrieval", 0)
             for i in range(len(records)):
                 if records[i][1] in date_list:
                     record = records[i]
                     print(display_record(record))
-            progress("Records retrieval process completed", " 100% done")
+            progress("Records retrieval", 100)
 
     elif retrieval_type == 3:
         record_country = observation_country()
@@ -389,12 +401,12 @@ def display_records(records, retrieval_type, record_country=None):
                         print(display_record(record, cols))
 
             elif multiple_cols.lower() == "y":
-                progress("Records retrieval process started", " 0% done")
+                progress("Records retrieval", 0)
                 for i in range(len(records)):
                     if records[i][3] in record_country:
                         record = records[i]
                         print(display_record(record))
-                progress("Records retrieval process started", " 100% done")
+                progress("Records retrieval", 100)
 
         elif record_country[0] == "r":
             if multiple_cols.lower() == "n":
@@ -416,12 +428,43 @@ def display_records(records, retrieval_type, record_country=None):
                         print(display_record(record, cols))
 
             elif multiple_cols.lower() == "y":
-                progress("Records retrieval process started", " 0% done")
+                progress("Records retrieval", 0)
                 for i in range(len(records)):
                     if records[i][2] in record_country:
                         record = records[i]
                         print(display_record(record))
-                progress("Records retrieval process started", " 100% done")
+                progress("Records retrieval", 100)
+
 
 def display_summary(records):
-    summary(records)
+
+    print_choice = input("Would you like to print countries, records or both (c, r, b)? \nUser Input: ")
+    progress("Summarising Data", 0)
+    country_records, region_records = summary(records)
+    progress("Summarising Data", 100)
+    print (" ")
+    progress("Printing Record Summary", 0)
+
+    if print_choice == "c":
+        for c in range(len(country_records)):
+            print(country_records[c])
+        progress("Printing Country Summary", 100)
+
+    elif print_choice == "r":
+        for r in range(len(region_records)):
+            #progress("Printing Country Data ", str(r/len(country_records)*100)+"% done")
+            print(region_records[r])
+        progress("Printing Region Summary", 100)
+
+    elif print_choice == "b":
+        print("Country Records:")
+        for c in range(len(country_records)):
+            print(country_records[c])
+        progress("Printing Country Summary", 100)
+
+        print(" ")
+        print("Region Records:")
+        print(" ")
+        for r in range(len(region_records)):
+            print(region_records[r])
+        progress("Printing Region Summary", 100)
