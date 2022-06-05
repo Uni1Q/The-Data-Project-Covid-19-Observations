@@ -1,6 +1,4 @@
-import json
-
-import tui
+import json as json
 from tui import *
 
 """
@@ -88,30 +86,52 @@ def summary(records):
 def export_data(records, export_option):
 
     if export_option == 1:
-        tui.progress("Exporting all data", " 0%\n")
+        progress("Exporting all data", " 0%\n")
         del records[0]
         with open("All_Data.json", "w") as dump:
             json.dump(records, dump, indent=2)
-        tui.progress("Exporting all data", " 100%\n")
+        progress("Exporting all data", " 100%\n")
 
     elif export_option == 2:
-        record_choice = tui.observation_country()
+        record_choice = observation_country(records)
         dump_records = []
         if record_choice[0] == "c":
-            tui.progress("Exporting country data", " 0%\n")
+            progress("Exporting country data", " 0%\n")
             for i in range(len(records)):
                 if records[i][3] in record_choice:
                     dump_records.append(records[i])
             with open("Country_Data.json", "w") as dump:
                 json.dump(dump_records, dump, indent = 2)
-            tui.progress("Exporting country data", " 100%\n")
+            progress("Exporting country data", " 100%\n")
 
         elif record_choice[0] == "r":
-            tui.progress("Exporting region data", " 0%\n")
+            progress("Exporting region data", " 0%\n")
             for i in range(len(records)):
                 if records[i][3] in record_choice:
                     dump_records.append(records[i])
             with open("Region_Data.json", "w") as dump:
                 json.dump(dump_records, dump, indent = 2)
-            tui.progress("Exporting region data", " 100%\n")
+            progress("Exporting region data", " 100%\n")
 
+
+def unique_places(place, records):
+
+    if place == "c":
+        countries_in_records = []
+        for i in range(1, len(records)):
+            if records[i][3] not in countries_in_records:
+                countries_in_records.append(records[i][3])
+        print(countries_in_records)
+        return countries_in_records
+
+    elif place == "r":
+        regions_in_records = []
+        for i in range(1, len(records)):
+            if records[i][2] not in regions_in_records:
+                regions_in_records.append(records[i][2])
+
+        print(regions_in_records)
+        return regions_in_records
+
+    else:
+        error("Huh?")

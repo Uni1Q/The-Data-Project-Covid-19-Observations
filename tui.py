@@ -20,10 +20,15 @@ def welcome():
     """
 
     # TODO: Your code here
+    welcome = "Welcome to covid data visualization"
 
-    print("-----------------------------------")
-    print("Welcome to covid data visualization")
-    print("-----------------------------------")
+    for i in range(len(welcome)):
+        print("-", end="")
+    print("")
+    print(welcome)
+    for i in range(len(welcome)):
+        print("-", end="")
+    print("")
 
 
 def error(msg):
@@ -39,7 +44,7 @@ def error(msg):
     """
     # TODO: Your code here
 
-    print(f"Error! {msg}")
+    print(f"\nError! {msg}")
 
 
 def progress(operation, value):
@@ -63,11 +68,11 @@ def progress(operation, value):
     # TODO: Your code here
 
     if value == 0:
-        print(operation, " has started")
+        print(operation, "has started")
     elif value in range(1, 100):
-        print(operation, f" is in progress ({value}% completed)")
+        print(operation, f"is in progress ({value}% completed)")
     elif value == 100:
-        print(operation, " has completed")
+        print(operation, "has completed")
 
 
 def menu(variant):
@@ -125,31 +130,52 @@ def menu(variant):
         print("[3] Group Records by Country/Region")
         print("[4] Summarise Records")
 
-        userSelection = int(input("\nUser Input: "))
-        if userSelection not in {1, 2, 3, 4}:
-            error("Wrong input")
+        while True:
+            try:
+                while True:
+                    userSelection = int(input("\nUser Input: "))
+                    if userSelection not in {1, 2, 3, 4}:
+                        error("Wrong input")
+                    else:
+                        break
+            except ValueError:
+                error("Wrong value")
+            else:
+                break
 
     elif selection == 2:
         print("\n[1] Country/Region Pie Chart")
         print("[2] Observations Chart")
         print("[3] Animated Summary")
-
-        userSelection = int(input("\nUser Input: "))
-        if userSelection in {1, 2, 3}:
-            pass
-        else:
-            error("Wrong input")
+        while True:
+            try:
+                while True:
+                    userSelection = int(input("\nUser Input: "))
+                    if userSelection in {1, 2, 3}:
+                        break
+                    else:
+                        error("Wrong input")
+            except ValueError:
+                error("Wrong value")
+            else:
+                break
 
     elif selection == 3:
         print("\n[1] All Data")
         print("[2] Data for Specific Country/Region")
-
-        userSelection = int(input("\nUser Input: "))
-        print("")
-        if userSelection in {1, 2}:
-            pass
-        else:
-            error("Wrong input")
+        while True:
+            try:
+                while True:
+                    userSelection = int(input("\nUser Input: "))
+                    print("")
+                    if userSelection in {1, 2}:
+                        pass
+                    else:
+                        error("Wrong input")
+            except ValueError:
+                error("Wrong value")
+            else:
+                break
 
     elif selection == 4:
         variant = selection
@@ -162,7 +188,6 @@ def menu(variant):
     return variant
 
 
-# noinspection PyUnresolvedReferences
 def total_records(covid_records):
     f"""
     Task 5: Display the total number of records in the data set.
@@ -191,7 +216,14 @@ def serial_number():
     :return: the serial number for a record
     """
     # TODO: Your code here
-    record_serial = int(input("Please enter the serial number for a record \nUser Input: "))
+
+    while True:
+        try:
+            record_serial = int(input("Please enter the serial number for a record \nUser Input: "))
+        except ValueError:
+            error("Wrong Value\n")
+        else:
+            break
     return record_serial
 
 
@@ -208,53 +240,136 @@ def observation_dates():
     """
     # TODO: Your code here
 
-    date_amount = int(input("Please input how many dates you'd like to print \nUser Input: "))
+    while True:
+        try:
+            date_amount = int(input("Please input how many dates you'd like to print \nUser Input: "))
+        except ValueError:
+            error("Wrong Value\n")
+        else:
+            break
+
     date_list = []
     print("Please enter the date. Please use the format dd/mm/yyyy \nUser Input: ")
     for i in range(date_amount):
-        temp_date = input()
-        input_date_list = temp_date.split("/")
-        temp_date = input_date_list[1] + "/" + input_date_list[0] + "/" + input_date_list[2]
-        date_list.append(temp_date)
+        while True:
+            try:
+                while True:
+                    temp_date = input()
+                    input_date_list = temp_date.split("/")
+                    if len(input_date_list[0]) != 2:
+                        error("Given Day is incorrect\n")
+                        continue
+                    elif len(input_date_list[1]) != 2:
+                        error("Given Month is incorrect\n")
+                        continue
+                    elif len(input_date_list[2]) != 4:
+                        error("Given Year is incorrect\n")
+                        continue
+                    temp_date = input_date_list[1] + "/" + input_date_list[0] + "/" + input_date_list[2]
+                    date_list.append(temp_date)
+                    break
+
+            except IndexError:
+                error("Wrong Date\n User Input:")
+            else:
+                break
 
     return date_list
 
 
-def observation_country():
+def observation_country(records):
 
-    multiple_groups = input("Would you like to have multiple countries/regions (y/n)? \nUser Input: ")
-    group_choice = input("Would you like to group by countries or regions (c/r)? \nUser Input: ")
+    while True:
+        multiple_groups = input("Would you like to have multiple countries/regions (y/n)? \nUser Input: ")
+        if multiple_groups in ["y", "n"]:
+            break
+        else:
+            error("Wrong Input\n")
 
-    if multiple_groups.lower() == "y":
-        if group_choice.lower() == "c":
+    while True:
+        group_choice = input("Would you like to group by countries or regions (c/r)? \nUser Input: ")
+        if group_choice in ["c", "r"]:
+            break
+        else:
+            error("Wrong Input\n")
+
+    if multiple_groups == "y":
+        if group_choice == "c":
+
             countries = []
-            country_amount = int(input("How many countries would you like to group by? \nUser Input: "))
+            countries_in_records = unique_places("c", records)
+
+            while True:
+                try:
+                    while True:
+                        country_amount = int(input("How many countries would you like to group by? \nUser Input: "))
+                        if country_amount > len(countries_in_records):
+                            error("More countries than in records\n")
+                        else:
+                            break
+                except ValueError:
+                    error("Wrong value\n")
+                else:
+                    break
+
             print("Please enter countries you'd like to group by \nUser Input: ")
-            for i in range(country_amount):
-                countries.append(input())
+
+            country_tracker = 0
+            while country_tracker != country_amount:
+                tempInput = input()
+                if tempInput in countries_in_records:
+                    countries.append(tempInput)
+                    country_tracker += 1
+                else:
+                    error("Country not in records\n")
+
             countries.insert(0, "c")
             return countries
-        elif group_choice.lower() == "r":
+
+        elif group_choice == "r":
+
             regions = []
-            region_amount = int(input("How many regions would you like to group by? \nUser Input: "))
+            regions_in_records = unique_places("r", records)
+
+            while True:
+                try:
+                    while True:
+                        region_amount = int(input("How many regions would you like to group by? \nUser Input: "))
+                        if region_amount > len(regions_in_records):
+                            error("More regions than in records\n")
+                        else:
+                            break
+                except ValueError:
+                    error("Wrong value\n")
+                else:
+                    break
+
             print("Please enter regions you'd like to group by \nUser Input: ")
-            for i in range(region_amount):
-                regions.append(input())
+
+            region_tracker = 0
+            while region_tracker != region_amount:
+                tempInput = input()
+                if tempInput in regions_in_records:
+                    regions.append(tempInput)
+                    region_tracker += 1
+                else:
+                    error("Region not in records\n")
+
             regions.insert(0, "r")
             return regions
 
-    elif multiple_groups.lower() == "n":
-        if group_choice.lower() == "c":
+    elif multiple_groups == "n":
+        if group_choice == "c":
             country = [input("Please enter country you'd like to group by \nUser Input: ")]
             country.insert(0, "c")
             return country
-        elif group_choice.lower() == "r":
+        elif group_choice == "r":
             region = [input("Please enter region you'd like to group by \nUser Input: ")]
             region.insert(0, "r")
             return region
 
     else:
-        error("Wrong Input")
+        error("Wrong Input\n")
 
 
 def display_record(record, cols = None):
@@ -294,6 +409,41 @@ def display_record(record, cols = None):
     return record_line
 
 
+def cols_input():
+    while True:
+        try:
+            while True:
+                col_length = int(input("How many columns would you like to print? \nUser Input: "))
+                if col_length in range(8):
+                    break
+                else:
+                    error("Value outside of range\n")
+        except ValueError:
+            error("Wrong Value\n")
+        else:
+            break
+
+    cols = []
+    print("Which columns would you like to print? \nUser Input: ")
+    tempVal = 0
+    while col_length != tempVal:
+        while True:
+            try:
+                tempInput = int(input())
+            except ValueError:
+                error("Wrong Value\nPlease enter new column")
+            else:
+                break
+        if tempInput in range(8) and tempInput not in cols:
+            cols.append(tempInput)
+            tempVal += 1
+        else:
+            print("Wrong input")
+    cols = sorted(cols)
+
+    return cols
+
+
 def display_records(records, retrieval_type, record_country=None):
     """
     Task 9: Display each record in the specified list of records.
@@ -322,52 +472,56 @@ def display_records(records, retrieval_type, record_country=None):
     # TODO: Your code here
 
     if retrieval_type == 1:
-        record_serial = serial_number()
-        record = records[record_serial]
-        multiple_cols = input("Would you like to print all the columns? (y, n) \nUser Input: ")
+        while True:
+            try:
+                record_serial = serial_number()
+                record = records[record_serial]
+            except IndexError:
+                error("Wrong Index\n")
+            else:
+                break
+
+        while True:
+            multiple_cols = input("Would you like to print all the columns? (y, n) \nUser Input: ")
+            if multiple_cols in ["y", "n"]:
+                break
+
         if multiple_cols.lower() == "n":
-            col_length = int(input("How many columns would you like to print? \nUser Input: "))
-            cols = []
-            print("Which columns would you like to print? \nUser Input: ")
-            tempVal = 0
-            while col_length != tempVal:
-                tempInput = int(input())
-                if tempInput in range(8):
-                    cols.append(tempInput)
-                    tempVal += 1
-                else:
-                    print("Wrong input")
-            progress("Records retrieval", 0)
+
+            cols = cols_input()
+
+            progress("Record retrieval", 0)
             print(display_record(record, cols))
-            progress("Records retrieval", 100)
+            progress("Record retrieval", 100)
 
         elif multiple_cols == "y":
-            progress("Records retrieval", 0)
+            progress("Record retrieval", 0)
             print(display_record(record))
-            progress("Records retrieval", 100)
+            progress("Record retrieval", 100)
 
     elif retrieval_type == 2:
+
         date_list = observation_dates()
-        multiple_cols = input("Would you like to print all the columns? (y, n) \nUser Input: ")
+        while True:
+            multiple_cols = input("Would you like to print all the columns? (y, n) \nUser Input: ")
+            if multiple_cols in ["y", "n"]:
+                break
+
+        printed_records = 0
+
         if multiple_cols.lower() == "n":
 
-            col_length = int(input("How many columns would you like to print? \nUser Input: "))
-            cols = []
-            print("Which columns would you like to print? \nUser Input: ")
-            tempVal = 0
-            while col_length != tempVal:
-                tempInput = int(input())
-                if tempInput in range(8):
-                    cols.append(tempInput)
-                    tempVal += 1
-                else:
-                    error("Wrong input")
+            cols = cols_input()
             progress("Records retrieval", 0)
             for i in range(len(records)):
                 if records[i][1] in date_list:
                     record = records[i]
                     print(display_record(record, cols))
-            progress("Records retrieval", 100)
+                    printed_records += 1
+            if printed_records != 0:
+                progress("Records retrieval", 100)
+            else:
+                print("No records found for given date")
 
         elif multiple_cols.lower() == "y":
 
@@ -376,25 +530,19 @@ def display_records(records, retrieval_type, record_country=None):
                 if records[i][1] in date_list:
                     record = records[i]
                     print(display_record(record))
-            progress("Records retrieval", 100)
+            if printed_records != 0:
+                progress("Records retrieval", 100)
+            else:
+                print("No records found for given date")
 
     elif retrieval_type == 3:
-        record_country = observation_country()
+        record_country = observation_country(records)
         multiple_cols = input("Would you like to print all the columns? (y, n) \nUser Input: ")
         if record_country[0] == "c":
             if multiple_cols.lower() == "n":
 
-                col_length = int(input("How many columns would you like to print? \nUser Input: "))
-                cols = []
-                print("Which columns would you like to print? \nUser Input: ")
-                tempVal = 0
-                while col_length != tempVal:
-                    tempInput = int(input())
-                    if tempInput in range(8):
-                        cols.append(tempInput)
-                        tempVal += 1
-                    else:
-                        error("Wrong input")
+                cols = cols_input()
+
                 for i in range(len(records)):
                     if records[i][3] in record_country:
                         record = records[i]
@@ -411,17 +559,8 @@ def display_records(records, retrieval_type, record_country=None):
         elif record_country[0] == "r":
             if multiple_cols.lower() == "n":
 
-                col_length = int(input("How many columns would you like to print? \nUser Input: "))
-                cols = []
-                print("Which columns would you like to print? \nUser Input: ")
-                tempVal = 0
-                while col_length != tempVal:
-                    tempInput = int(input())
-                    if tempInput in range(8):
-                        cols.append(tempInput)
-                        tempVal += 1
-                    else:
-                        error("Wrong input")
+                cols = cols_input()
+
                 for i in range(len(records)):
                     if records[i][2] in record_country:
                         record = records[i]
@@ -438,11 +577,15 @@ def display_records(records, retrieval_type, record_country=None):
 
 def display_summary(records):
 
-    print_choice = input("Would you like to print countries, records or both (c, r, b)? \nUser Input: ")
+    while True:
+        print_choice = input("Would you like to print countries, records or both (c, r, b)? \nUser Input: ")
+        if print_choice in ["c", "r", "b"]:
+            break
+
     progress("Summarising Data", 0)
     country_records, region_records = summary(records)
     progress("Summarising Data", 100)
-    print (" ")
+    print(" ")
     progress("Printing Record Summary", 0)
 
     if print_choice == "c":

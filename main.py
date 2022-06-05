@@ -24,12 +24,22 @@ covid_records = []
 
 
 def data_read():
-    with open("data/covid_19_data.csv") as data:
-        reader = csv.reader(data)
-        for item in reader:
-            covid_records.append(item)
+    path = "data/covid_19_data.csv"
+
+    while True:
+        try:
+            with open(path) as data:
+                reader = csv.reader(data)
+                for item in reader:
+                    covid_records.append(item)
+        except:
+            error(f"File not found in {path}, please input new file location")
+            path = input("File path: ")
+        else:
+            break
 
     return covid_records
+
 
 def run():
     # Task 12: Call the function welcome of the module 'tui'.
@@ -48,6 +58,7 @@ def run():
     # TODO: Your code here
 
     progress("Loading data", 0)
+    print("")
     data_read()
     total_records(covid_records)
     progress("Loading data", 100)
