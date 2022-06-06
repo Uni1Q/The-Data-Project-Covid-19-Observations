@@ -24,6 +24,7 @@ covid_records = []
 
 
 def data_read():
+
     path = "data/covid_19_data.csv"
 
     while True:

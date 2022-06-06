@@ -1,5 +1,5 @@
-import json as json
-from tui import *
+import json
+import tui
 
 """
 This module is responsible for processing the data.  Each function in this module will take a list of records,
@@ -86,32 +86,34 @@ def summary(records):
 def export_data(records, export_option):
 
     if export_option == 1:
-        progress("Exporting all data", " 0%\n")
+        tui.progress("Exporting all data", 0)
         del records[0]
         with open("All_Data.json", "w") as dump:
-            json.dump(records, dump, indent=2)
-        progress("Exporting all data", " 100%\n")
+            json.dump(records, dump, indent = 1)
+        tui.progress("Exporting all data", 100)
 
     elif export_option == 2:
-        record_choice = observation_country(records)
+        record_choice = tui.observation_country(records)
         dump_records = []
         if record_choice[0] == "c":
-            progress("Exporting country data", " 0%\n")
+            del records[0]
+            tui.progress("Exporting country data", 0)
             for i in range(len(records)):
                 if records[i][3] in record_choice:
                     dump_records.append(records[i])
             with open("Country_Data.json", "w") as dump:
-                json.dump(dump_records, dump, indent = 2)
-            progress("Exporting country data", " 100%\n")
+                json.dump(dump_records, dump, indent = 1)
+            tui.progress("Exporting country data", 100)
 
         elif record_choice[0] == "r":
-            progress("Exporting region data", " 0%\n")
+            del records[0]
+            tui.progress("Exporting region data", 0)
             for i in range(len(records)):
-                if records[i][3] in record_choice:
+                if records[i][2] in record_choice:
                     dump_records.append(records[i])
             with open("Region_Data.json", "w") as dump:
-                json.dump(dump_records, dump, indent = 2)
-            progress("Exporting region data", " 100%\n")
+                json.dump(dump_records, dump, indent = 1)
+            tui.progress("Exporting region data", 100)
 
 
 def unique_places(place, records):
@@ -134,4 +136,4 @@ def unique_places(place, records):
         return regions_in_records
 
     else:
-        error("Huh?")
+        tui.error("Huh?")

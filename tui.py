@@ -169,7 +169,7 @@ def menu(variant):
                     userSelection = int(input("\nUser Input: "))
                     print("")
                     if userSelection in {1, 2}:
-                        pass
+                        break
                     else:
                         error("Wrong input")
             except ValueError:
