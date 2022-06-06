@@ -372,6 +372,41 @@ def observation_country(records):
         error("Wrong Input\n")
 
 
+def cols_input():
+    while True:
+        try:
+            while True:
+                col_length = int(input("How many columns would you like to print? \nUser Input: "))
+                if col_length in range(8):
+                    break
+                else:
+                    error("Value outside of range\n")
+        except ValueError:
+            error("Wrong Value\n")
+        else:
+            break
+
+    cols = []
+    print("Which columns would you like to print? \nUser Input: ")
+    tempVal = 0
+    while col_length != tempVal:
+        while True:
+            try:
+                tempInput = int(input())
+            except ValueError:
+                error("Wrong Value\nPlease enter new column")
+            else:
+                break
+        if tempInput in range(8) and tempInput not in cols:
+            cols.append(tempInput)
+            tempVal += 1
+        else:
+            print("Wrong input")
+    cols = sorted(cols)
+
+    return cols
+
+
 def display_record(record, cols = None):
     """
     Task 8: Display a record. Only the data for the specified column indexes will be displayed.
@@ -407,41 +442,6 @@ def display_record(record, cols = None):
         for x in cols:
             record_line.append(record[x])
     return record_line
-
-
-def cols_input():
-    while True:
-        try:
-            while True:
-                col_length = int(input("How many columns would you like to print? \nUser Input: "))
-                if col_length in range(8):
-                    break
-                else:
-                    error("Value outside of range\n")
-        except ValueError:
-            error("Wrong Value\n")
-        else:
-            break
-
-    cols = []
-    print("Which columns would you like to print? \nUser Input: ")
-    tempVal = 0
-    while col_length != tempVal:
-        while True:
-            try:
-                tempInput = int(input())
-            except ValueError:
-                error("Wrong Value\nPlease enter new column")
-            else:
-                break
-        if tempInput in range(8) and tempInput not in cols:
-            cols.append(tempInput)
-            tempVal += 1
-        else:
-            print("Wrong input")
-    cols = sorted(cols)
-
-    return cols
 
 
 def display_records(records, retrieval_type, record_country=None):
@@ -611,3 +611,4 @@ def display_summary(records):
         for r in range(len(region_records)):
             print(region_records[r])
         progress("Printing Region Summary", 100)
+

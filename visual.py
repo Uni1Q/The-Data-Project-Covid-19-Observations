@@ -1,3 +1,7 @@
+import matplotlib.pyplot as plt
+import tui
+import process
+
 """
 This module is responsible for visualising the data using Matplotlib.
 """
@@ -14,3 +18,15 @@ Each function should visualise the data using Matplotlib.
 """
 
 # TODO: Your code here
+
+
+def pie_chart(records):
+    pass
+
+
+def bar_chart(records):
+    pass
+
+
+def animate(records):
+    pass

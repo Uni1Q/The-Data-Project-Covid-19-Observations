@@ -123,7 +123,7 @@ def unique_places(place, records):
         for i in range(1, len(records)):
             if records[i][3] not in countries_in_records:
                 countries_in_records.append(records[i][3])
-        print(countries_in_records)
+
         return countries_in_records
 
     elif place == "r":
@@ -132,7 +132,6 @@ def unique_places(place, records):
             if records[i][2] not in regions_in_records:
                 regions_in_records.append(records[i][2])
 
-        print(regions_in_records)
         return regions_in_records
 
     else:

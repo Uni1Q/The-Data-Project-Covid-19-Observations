@@ -33,7 +33,7 @@ def data_read():
                 reader = csv.reader(data)
                 for item in reader:
                     covid_records.append(item)
-        except:
+        except FileNotFoundError:
             error(f"File not found in {path}, please input new file location")
             path = input("File path: ")
         else:
@@ -145,7 +145,9 @@ def run():
         # TODO: Your code here
 
         elif user_choice == 21:
-            pass  # visualize data, Country/Region pie chart
+            records = covid_records
+            pie_chart(records)
+            # visualize data of confirmed cases per country
         elif user_choice == 22:
             pass  # visualize data, Observations Chart
         elif user_choice == 23:
