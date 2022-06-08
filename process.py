@@ -33,10 +33,8 @@ The required functions are as follows:
 
 class Record:
 
-    parent_country = None
-
-    def __init__(self, parent_country, name, cases, deaths, recovered):
-        self.parent_country = Record.parent_country
+    def __init__(self, parent, name, cases, deaths, recovered):
+        self.parent = parent
         self.name = name
         self.cases = cases
         self.deaths = deaths
@@ -44,9 +42,6 @@ class Record:
 
     def __str__(self):
         return f"{self.name} has a total of {self.cases} cases, {self.deaths} deaths and {self.recovered} recovered."
-
-    def __repr__(self):
-        return f"Country = {self.name}, cases = {self.cases}, deaths = {self.deaths}, recovered = {self.recovered}"
 
 
 def summary(records):
@@ -136,3 +131,8 @@ def unique_places(place, records):
 
     else:
         tui.error("Huh?")
+
+
+def records_amount(covid_records):
+    record_amount = covid_records[-1][0]
+    return record_amount

@@ -1,4 +1,5 @@
-from process import *
+import process as prc
+
 """
 TUI is short for Text-User Interface. This module is responsible for communicating with the user.
 The functions in this module will display information to the user and/or retrieve a response from the user.
@@ -7,6 +8,7 @@ A function may also need to format and/or structure a response e.g. return a lis
 Any errors or invalid inputs should be handled appropriately.
 Please note that you do not need to read the data file or perform any other such processing in this module.
 """
+
 
 def welcome():
     """
@@ -20,7 +22,7 @@ def welcome():
     """
 
     # TODO: Your code here
-    welcome = "Welcome to covid data visualization"
+    welcome = "Covid-19 (January) Data"
 
     for i in range(len(welcome)):
         print("-", end="")
@@ -120,7 +122,7 @@ def menu(variant):
             if selection not in {1, 2, 3, 4}:
                 error("Wrong input")
         except ValueError:
-            error("Wrong Value")
+            error("Wrong value")
         else:
             break
 
@@ -202,11 +204,13 @@ def total_records(covid_records):
     :return: Does not return anything
     """
     # TODO: Your code here
-    num_records = covid_records[-1][0]
+
+
+    num_records = prc.records_amount(covid_records)
     print(f"There are {num_records} records in the data set.\n")
 
 
-def serial_number():
+def serial_number(records):
     """
     Task 6: Read in the serial number of a record and return the serial number.
 
@@ -217,9 +221,17 @@ def serial_number():
     """
     # TODO: Your code here
 
+
+    records_range = int(prc.records_amount(records))
+
     while True:
         try:
-            record_serial = int(input("Please enter the serial number for a record \nUser Input: "))
+            while True:
+                record_serial = int(input("Please enter the serial number for a record \nUser Input: "))
+                if record_serial in range(1, records_range+1):
+                    break
+                else:
+                    error("Serial doesnt exist in the data set\n")
         except ValueError:
             error("Wrong Value\n")
         else:
@@ -255,15 +267,15 @@ def observation_dates():
             try:
                 while True:
                     temp_date = input()
-                    input_date_list = temp_date.split("/")
+                    input_date_list = temp_date.split("/", 2)
                     if len(input_date_list[0]) != 2:
-                        error("Given Day is incorrect\n")
+                        error("Given Day is incorrect\nUser Input:")
                         continue
                     elif len(input_date_list[1]) != 2:
-                        error("Given Month is incorrect\n")
+                        error("Given Month is incorrect\nUser Input:")
                         continue
                     elif len(input_date_list[2]) != 4:
-                        error("Given Year is incorrect\n")
+                        error("Given Year is incorrect\nUser Input:")
                         continue
                     temp_date = input_date_list[1] + "/" + input_date_list[0] + "/" + input_date_list[2]
                     date_list.append(temp_date)
@@ -275,6 +287,16 @@ def observation_dates():
                 break
 
     return date_list
+
+
+def visual_country():
+
+    while True:
+        visual_choice = input("Would you like to visualize by country or region (c/r) \nUser Input: ")
+        if visual_choice in ["c", "r"]:
+            return visual_choice
+        else:
+            error("Wrong Input\n")
 
 
 def observation_country(records):
@@ -297,7 +319,7 @@ def observation_country(records):
         if group_choice == "c":
 
             countries = []
-            countries_in_records = unique_places("c", records)
+            countries_in_records = prc.unique_places("c", records)
 
             while True:
                 try:
@@ -329,7 +351,7 @@ def observation_country(records):
         elif group_choice == "r":
 
             regions = []
-            regions_in_records = unique_places("r", records)
+            regions_in_records = prc.unique_places("r", records)
 
             while True:
                 try:
@@ -394,14 +416,14 @@ def cols_input():
             try:
                 tempInput = int(input())
             except ValueError:
-                error("Wrong Value\nPlease enter new column")
+                error("Wrong Value\nPlease enter new column: ")
             else:
                 break
         if tempInput in range(8) and tempInput not in cols:
             cols.append(tempInput)
             tempVal += 1
         else:
-            print("Wrong input")
+            error("Wrong input")
     cols = sorted(cols)
 
     return cols
@@ -444,7 +466,7 @@ def display_record(record, cols = None):
     return record_line
 
 
-def display_records(records, retrieval_type, record_country=None):
+def display_records(records, retrieval_type):
     """
     Task 9: Display each record in the specified list of records.
     Only the data for the specified column indexes will be displayed.
@@ -474,7 +496,7 @@ def display_records(records, retrieval_type, record_country=None):
     if retrieval_type == 1:
         while True:
             try:
-                record_serial = serial_number()
+                record_serial = serial_number(records)
                 record = records[record_serial]
             except IndexError:
                 error("Wrong Index\n")
@@ -521,7 +543,7 @@ def display_records(records, retrieval_type, record_country=None):
             if printed_records != 0:
                 progress("Records retrieval", 100)
             else:
-                print("No records found for given date")
+                error("No records found for given date")
 
         elif multiple_cols.lower() == "y":
 
@@ -533,7 +555,7 @@ def display_records(records, retrieval_type, record_country=None):
             if printed_records != 0:
                 progress("Records retrieval", 100)
             else:
-                print("No records found for given date")
+                error("No records found for given date")
 
     elif retrieval_type == 3:
         record_country = observation_country(records)
@@ -583,7 +605,7 @@ def display_summary(records):
             break
 
     progress("Summarising Data", 0)
-    country_records, region_records = summary(records)
+    country_records, region_records = prc.summary(records)
     progress("Summarising Data", 100)
     print(" ")
     progress("Printing Record Summary", 0)
@@ -595,7 +617,7 @@ def display_summary(records):
 
     elif print_choice == "r":
         for r in range(len(region_records)):
-            #progress("Printing Country Data ", str(r/len(country_records)*100)+"% done")
+            progress("Printing Country Data ", str(r/len(country_records)*100)+"% done")
             print(region_records[r])
         progress("Printing Region Summary", 100)
 
