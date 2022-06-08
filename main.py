@@ -149,7 +149,9 @@ def run():
             pie_chart(records)
             # visualize data of confirmed cases per country
         elif user_choice == 22:
-            pass  # visualize data, Observations Chart
+            records = covid_records
+            bar_chart(records)
+            # visualize data, Observations Chart
         elif user_choice == 23:
             pass  # visualize data, animated summary
 

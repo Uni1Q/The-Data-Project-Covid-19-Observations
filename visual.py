@@ -78,7 +78,8 @@ def pie_chart(records):
 
 
 def bar_chart(records):
-    pass
+
+    country_records, region_records = prc.summary(records)
 
 
 def animate(records):
