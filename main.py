@@ -12,9 +12,9 @@ Note:   any user input/output should be done using the appropriate functions in 
 # TODO: Your code here
 
 import csv
-from tui import *
-from process import *
-from visual import *
+import tui
+import process as prc
+import visual
 
 # Task 11: Create an empty list named 'covid_records'.
 # This will be used to store the data read from the source data file.
@@ -34,7 +34,7 @@ def data_read():
                 for item in reader:
                     covid_records.append(item)
         except FileNotFoundError:
-            error(f"File not found in {path}, please input new file location")
+            tui.error(f"File not found in {path}, please input new file location")
             path = input("File path: ")
         else:
             break
@@ -47,7 +47,7 @@ def run():
     # This will display our welcome message when the program is executed.
     # TODO: Your code here
 
-    welcome()
+    tui.welcome()
 
     # Task 13: Load the data.
     # - Use the appropriate function in the module 'tui' to display a message to indicate that the data loading
@@ -58,11 +58,11 @@ def run():
     # been loaded and that the data loading operation has completed.
     # TODO: Your code here
 
-    progress("Loading data", 0)
+    tui.progress("Loading data", 0)
     print("")
     data_read()
-    total_records(covid_records)
-    progress("Loading data", 100)
+    tui.total_records(covid_records)
+    tui.progress("Loading data", 100)
 
     while True:
         # Task 14: Using the appropriate function in the module 'tui', display a menu of options
@@ -70,7 +70,7 @@ def run():
         # Assign the selected option to a suitable local variable
         # TODO: Your code here
         variant = 0
-        user_choice = menu(variant)
+        user_choice = tui.menu(variant)
 
         # Task 15: Check if the user selected the option for processing data.  If so, then do the following:
         # - Use the appropriate function in the module tui to display a message to indicate that the data processing
@@ -120,18 +120,18 @@ def run():
         if user_choice == 11:
             # process data, records by serial
             records = covid_records
-            display_records(records, retrieval_type = 1)
+            tui.display_records(records, retrieval_type = 1)
         elif user_choice == 12:
             records = covid_records
-            display_records(records, retrieval_type = 2)
+            tui.display_records(records, retrieval_type = 2)
             # process data, records by observation date
         elif user_choice == 13:
             records = covid_records
-            display_records(records, retrieval_type = 3)
+            tui.display_records(records, retrieval_type = 3)
             # process data, group records by country,region
         elif user_choice == 14:
             records = covid_records
-            display_summary(records)
+            tui.display_summary(records)
 
         # Task 21: Check if the user selected the option for visualising data.
         # If so, then do the following:
@@ -146,15 +146,15 @@ def run():
 
         elif user_choice == 21:
             records = covid_records
-            pie_chart(records)
+            visual.pie_chart(records)
             # visualize data of confirmed cases per country
         elif user_choice == 22:
             records = covid_records
-            bar_chart(records)
+            visual.bar_chart(records)
             # visualize data, Observations Chart
         elif user_choice == 23:
             records = covid_records
-            animate_graph(records)
+            visual.animate_graph(records)
             # visualize data, animated summary
 
         # Task 25: Check if the user selected the option for exporting data.  If so, then do the following:
@@ -172,10 +172,10 @@ def run():
 
         elif user_choice == 31:
             records = covid_records
-            export_data(records, export_option = 1)
+            prc.export_data(records, export_option = 1)
         elif user_choice == 32:
             records = covid_records
-            export_data(records, export_option = 2)
+            prc.export_data(records, export_option = 2)
 
         # Task 26: Check if the user selected the option for exiting the program.
         # If so, then break out of the loop
@@ -188,7 +188,7 @@ def run():
         # module tui to display an error message
         # TODO: Your code here
         else:
-            error("Invalid option! Try again")
+            tui.error("Invalid option! Try again")
 
 
 if __name__ == "__main__":

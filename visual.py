@@ -113,6 +113,7 @@ def bar_chart(records):
                     top_place_data.append(country.cases)
                     count += 1
             plt.title("Top 5 countries by cases (excluding Mainland China)")
+            plt.xlabel("Countries")
 
     elif place_choice == "r":
         if exclude_china == "n":
@@ -133,10 +134,10 @@ def bar_chart(records):
                     top_place_data.append(region.cases)
                     count += 1
             plt.title("Top 5 regions by cases (excluding Mainland China)")
+            plt.xlabel("Regions")
 
     plt.bar(top_places, top_place_data, color = "#87eab1")
 
-    plt.xlabel("Countries")
     plt.ylabel("Cases")
     plt.show()
     tui.progress("Displaying bar chart", 100)
@@ -160,6 +161,7 @@ def animate_graph(records):
     x1 = []
     y1 = []
     tui.progress("Displaying animated graph", 0)
+
 #_________________________________________________ALL COUNTRIES/REGIONS_________________________________________________
     if place_choice == "a":
         if visual_choice == "c":
