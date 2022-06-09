@@ -240,15 +240,14 @@ def animate_graph(records):
                 for j in range(len(records)):
                     if place == records[j][3]:
                         if dates[i][0] == records[j][4]:
-                            total_for_update += int(records[j][5])
-                            dates[i][1] += total_for_update
+                            dates[i][1] += int(records[j][5])
 
             for i in range(len(dates)):
                 y_data.append(dates[i][1])
             for i in range(len(dates)):
                 x_labels.append(dates[i][0])
 
-            plt.title(f"Confirmed cases for {place}")
+            plt.title(f"Confirmed cases for the day in {place}")
             cases_for_specific_country_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
 
         elif visual_choice == "d":
@@ -264,7 +263,7 @@ def animate_graph(records):
                 for j in range(len(records)):
                     if place == records[j][3]:
                         if dates[i][0] == records[j][4]:
-                            total_for_update += int(records[j][6])
+                            total_for_update = int(records[j][6])
                             dates[i][1] += total_for_update
 
             for i in range(len(dates)):
@@ -272,7 +271,7 @@ def animate_graph(records):
             for i in range(len(dates)):
                 x_labels.append(dates[i][0])
 
-            plt.title(f"Confirmed deaths for {place}")
+            plt.title(f"Confirmed deaths for the day in {place}")
             deaths_for_specific_country_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
 
         elif visual_choice == "r":
@@ -288,7 +287,7 @@ def animate_graph(records):
                 for j in range(len(records)):
                     if place == records[j][3]:
                         if dates[i][0] == records[j][4]:
-                            total_for_update += int(records[j][7])
+                            total_for_update = int(records[j][7])
                             dates[i][1] += total_for_update
 
             for i in range(len(dates)):
@@ -296,7 +295,7 @@ def animate_graph(records):
             for i in range(len(dates)):
                 x_labels.append(dates[i][0])
 
-            plt.title(f"Recoveries for {place}")
+            plt.title(f"Recoveries for the day in {place}")
             recoveries_for_specific_country_animation = animation.FuncAnimation(fig, animate, frames=len(dates),interval=100, repeat=False)
 
 #_________________________________________________SPECIFIC REGION_________________________________________________
@@ -315,7 +314,7 @@ def animate_graph(records):
                 for j in range(len(records)):
                     if place == records[j][2]:
                         if dates[i][0] == records[j][4]:
-                            total_for_update += int(records[j][5])
+                            total_for_update = int(records[j][5])
                             dates[i][1] += total_for_update
 
             for i in range(len(dates)):
@@ -323,7 +322,7 @@ def animate_graph(records):
             for i in range(len(dates)):
                 x_labels.append(dates[i][0])
 
-            plt.title(f"Confirmed cases for {place}")
+            plt.title(f"Confirmed cases for the day in {place}")
             cases_for_specific_region_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
 
         elif visual_choice == "d":
@@ -339,7 +338,7 @@ def animate_graph(records):
                 for j in range(len(records)):
                     if place == records[j][2]:
                         if dates[i][0] == records[j][4]:
-                            total_for_update += int(records[j][6])
+                            total_for_update = int(records[j][6])
                             dates[i][1] += total_for_update
 
             for i in range(len(dates)):
@@ -347,7 +346,7 @@ def animate_graph(records):
             for i in range(len(dates)):
                 x_labels.append(dates[i][0])
 
-            plt.title(f"Confirmed deaths for {place}")
+            plt.title(f"Confirmed deaths for the day in {place}")
             deaths_for_specific_region_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
 
         elif visual_choice == "r":
@@ -363,7 +362,7 @@ def animate_graph(records):
                 for j in range(len(records)):
                     if place == records[j][2]:
                         if dates[i][0] == records[j][4]:
-                            total_for_update += int(records[j][7])
+                            total_for_update = int(records[j][7])
                             dates[i][1] += total_for_update
 
             for i in range(len(dates)):
@@ -371,7 +370,7 @@ def animate_graph(records):
             for i in range(len(dates)):
                 x_labels.append(dates[i][0])
 
-            plt.title(f"Recoveries for {place}")
+            plt.title(f"Recoveries for the day in {place}")
             recoveries_for_specific_region_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
 
     plt.show()
