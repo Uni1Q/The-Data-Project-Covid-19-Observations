@@ -33,15 +33,23 @@ The required functions are as follows:
 
 class Record:
 
-    def __init__(self, parent, name, cases, deaths, recovered):
+    def __init__(self, parent, name, last_update, cases, deaths, recovered):
         self.parent = parent
         self.name = name
+        self.last_update = last_update
         self.cases = cases
         self.deaths = deaths
         self.recovered = recovered
 
+
     def __str__(self):
         return f"{self.name} has a total of {self.cases} cases, {self.deaths} deaths and {self.recovered} recovered."
+
+    def __eq__(self, other):
+        return self.cases == other.cases and self.cases == other.cases
+
+    def __lt__(self, other):
+        return self.cases > other.cases
 
 
 def summary(records):
@@ -52,7 +60,7 @@ def summary(records):
 
     for i in range(1, len(records)):
         if records[i][3] not in names:
-            country_records.append(Record(None, records[i][3], int(records[i][5]), int(records[i][6]), int(records[i][7])))
+            country_records.append(Record(None, records[i][3], records[i][4], int(records[i][5]), int(records[i][6]), int(records[i][7])))
             names.append(records[i][3])
 
         else:
@@ -64,7 +72,7 @@ def summary(records):
                     break
 
         if records[i][2] not in names:
-            region_records.append(Record(records[i][3], records[i][2], int(records[i][5]), int(records[i][6]), int(records[i][7])))
+            region_records.append(Record(records[i][3], records[i][2], records[i][4], int(records[i][5]), int(records[i][6]), int(records[i][7])))
             names.append(records[i][2])
 
         else:

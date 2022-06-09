@@ -153,7 +153,9 @@ def run():
             bar_chart(records)
             # visualize data, Observations Chart
         elif user_choice == 23:
-            pass  # visualize data, animated summary
+            records = covid_records
+            animate_graph(records)
+            # visualize data, animated summary
 
         # Task 25: Check if the user selected the option for exporting data.  If so, then do the following:
         # - Use the appropriate function in the module 'tui' to retrieve the type of data to be exported.

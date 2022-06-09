@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 import tui
 import process as prc
 
@@ -23,7 +24,6 @@ Each function should visualise the data using Matplotlib.
 def pie_chart(records):
 
     visual_choice = tui.visual_country()
-
     country_records, region_records = prc.summary(records)
 
     if visual_choice == "c":
@@ -80,7 +80,227 @@ def pie_chart(records):
 def bar_chart(records):
 
     country_records, region_records = prc.summary(records)
+    region_records = sorted(region_records)
+    country_records = sorted(country_records)
+
+    place_choice, exclude_china = tui.bar_choice()
+
+    fig = plt.figure(figsize=(10, 5))
+
+    top_places = []
+    top_place_data = []
+    count = 0
+
+    if place_choice == "c":
+        if exclude_china == "n":
+            for country in country_records:
+                if count == 5:
+                    break
+                top_places.append(country.name)
+                top_place_data.append(country.cases)
+                count += 1
+            plt.title("Top 5 countries by cases")
+        elif exclude_china == "y":
+            for country in country_records:
+                if count == 5:
+                    break
+                if country.name != "Mainland China":
+                    top_places.append(country.name)
+                    top_place_data.append(country.cases)
+                    count += 1
+            plt.title("Top 5 countries by cases (excluding China)")
+
+    elif place_choice == "r":
+        if exclude_china == "n":
+            for region in region_records:
+                if count == 5:
+                    break
+                if region.name != "":
+                    top_places.append(region.name)
+                    top_place_data.append(region.cases)
+                    count += 1
+            plt.title("Top 5 regions by cases")
+        elif exclude_china == "y":
+            for region in region_records:
+                if count == 5:
+                    break
+                if region.parent != "Mainland China" and region.name != "":
+                    top_places.append(region.name)
+                    top_place_data.append(region.cases)
+                    count += 1
+            plt.title("Top 5 regions by cases (excluding China)")
+
+    plt.bar(top_places, top_place_data, color = "#87eab1")
+
+    plt.xlabel("Countries")
+    plt.ylabel("Cases")
+    plt.show()
 
 
-def animate(records):
-    pass
+def animate_graph(records):
+
+    country_records, region_records = prc.summary(records)
+    visual_choice, place_choice, place = tui.visual_selection(records)
+
+    global fig, ax
+    fig, ax = plt.subplots()
+
+    updates = []
+    total = 0
+    total_for_update = 0
+    global y_data, x_labels
+    y_data = []
+    x_labels = []
+
+    if place_choice == "a":
+        if visual_choice == "c":
+
+            for date in country_records:
+                if date.last_update not in updates:
+                    updates.append([date.last_update])
+            dates = [i for n, i in enumerate(updates) if i not in updates[:n]]
+            for i in range(len(dates)):
+                for j in range(len(records)):
+                    if dates[i][0] == records[j][4]:
+                        total_for_update += int(records[j][5])
+                dates[i].append(total_for_update)
+
+            for i in range(len(dates)):
+                y_data.append(dates[i][1])
+            for i in range(len(dates)):
+                x_labels.append(dates[i][0])
+
+            all_cases_for_countries_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
+
+        elif visual_choice == "d":
+
+            for date in country_records:
+                if date.last_update not in updates:
+                    updates.append([date.last_update])
+            dates = [i for n, i in enumerate(updates) if i not in updates[:n]]
+
+            for i in range(len(dates)):
+                for j in range(len(records)):
+                    if dates[i][0] == records[j][4]:
+                        total_for_update += int(records[j][6])
+                dates[i].append(total_for_update)
+
+            for i in range(len(dates)):
+                y_data.append(dates[i][1])
+            for i in range(len(dates)):
+                x_labels.append(dates[i][0])
+
+            all_deaths_for_countries_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
+
+        elif visual_choice == "r":
+
+            for date in country_records:
+                if date.last_update not in updates:
+                    updates.append([date.last_update])
+            dates = [i for n, i in enumerate(updates) if i not in updates[:n]]
+
+            for i in range(len(dates)):
+                for j in range(len(records)):
+                    if dates[i][0] == records[j][4]:
+                        total_for_update += int(records[j][7])
+                dates[i].append(total_for_update)
+
+            for i in range(len(dates)):
+                y_data.append(dates[i][1])
+            for i in range(len(dates)):
+                x_labels.append(dates[i][0])
+
+            all_recoveries_for_countries_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
+
+    elif place_choice == "c":
+        if visual_choice == "c":
+            pass
+
+        elif visual_choice == "d":
+            pass
+
+        elif visual_choice == "r":
+            pass
+
+    elif place_choice == "r":
+        if visual_choice == "c":
+            pass
+
+        elif visual_choice == "d":
+            pass
+
+        elif visual_choice == "r":
+            pass
+
+    plt.show()
+    '''if visual_choice == "c":
+        for cases in country_records:
+            total += cases.cases
+
+        for date in country_records:
+            if date.last_update not in updates:
+                updates.append([date.last_update])
+        dates = [i for n, i in enumerate(updates) if i not in updates[:n]]
+
+        for i in range(len(dates)):
+            for j in range(len(records)):
+                if dates[i][0] == records[j][4]:
+                    total_for_update += int(records[j][5])
+            dates[i].append(total_for_update)
+
+        global y_data
+        y_data = []
+        global x_labels
+        x_labels = []
+        for i in range(len(dates)):
+            y_data.append(dates[i][1])
+        for i in range(len(dates)):
+            x_labels.append(dates[i][0])
+
+        cases_animation = animation.FuncAnimation(fig, animate, frames = len(dates), interval = 100, repeat = False)
+        plt.show()
+
+    elif visual_choice == "d":
+        for deaths in country_records:
+            total += deaths.deaths
+
+        for date in country_records:
+            if date.last_update not in updates:
+                updates.append([date.last_update])
+
+        for i in range(len(updates)):
+            for j in range(len(records)):
+                if updates[i][0] == records[j][4]:
+                    total_for_update += int(records[j][6])
+            updates[i].append(total_for_update)
+            total_for_update = 0
+
+        dates = [ii for n, ii in enumerate(updates) if ii not in updates[:n]]
+
+    elif visual_choice == "r":
+        for recoveries in country_records:
+            total += recoveries.recovered
+
+        for date in country_records:
+            if date.last_update not in updates:
+                updates.append([date.last_update])
+
+        for i in range(len(updates)):
+            for j in range(len(records)):
+                if updates[i][0] == records[j][4]:
+                    total_for_update += int(records[j][7])
+            updates[i].append(total_for_update)
+            total_for_update = 0
+
+        dates = [ii for n, ii in enumerate(updates) if ii not in updates[:n]]'''
+
+x1 = []
+y1 = []
+
+
+def animate(frame):
+
+    x1.append(x_labels[frame])
+    y1.append(y_data[frame])
+
+    ax.plot(x1, y1, "r--")

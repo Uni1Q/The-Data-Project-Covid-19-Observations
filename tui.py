@@ -292,11 +292,46 @@ def observation_dates():
 def visual_country():
 
     while True:
-        visual_choice = input("Would you like to visualize by country or region (c/r) \nUser Input: ")
+        visual_choice = input("Would you like to visualize by country or region (c/r)? \nUser Input: ")
         if visual_choice in ["c", "r"]:
             return visual_choice
         else:
             error("Wrong Input\n")
+
+
+def visual_selection(records):
+
+    while True:
+        visual_choice = input("Would you like to animate cases, deaths or recoveries (c/d/r)? \nUser Input: ")
+        if visual_choice in ["c", "d", "r"]:
+            pass
+        else:
+            error("Wrong Input\n")
+        while True:
+            place_choice = input("Would you like to animate for specific country or region or for all data (c/r/a)? \nUser Input: ")
+            if place_choice == "c":
+                while True:
+                    places = prc.unique_places("c", records)
+                    country_choice = input("")
+            else:
+                error("Wrong Input\n")
+
+
+def bar_choice():
+
+    while True:
+        place_choice = input("Would you like to graph for country or region (c/r)? \nUserInput: ")
+        if place_choice in ["c", "r"]:
+            pass
+        else:
+            error("Wrong Input\n")
+            continue
+        while True:
+            exclude_china = input("Would you like to exclude china from the graph? (y/n)? \nUserInput: ")
+            if exclude_china in ["y", "n"]:
+                return place_choice, exclude_china
+            else:
+                error("Wrong Input\n")
 
 
 def observation_country(records):
