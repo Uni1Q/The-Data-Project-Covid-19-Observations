@@ -309,10 +309,29 @@ def visual_selection(records):
             error("Wrong Input\n")
         while True:
             place_choice = input("Would you like to animate for specific country or region or for all data (c/r/a)? \nUser Input: ")
+
             if place_choice == "c":
                 while True:
                     places = prc.unique_places("c", records)
-                    country_choice = input("")
+                    country_choice = input("Please enter a country you'd like to graph by \nUser Input:")
+                    if country_choice not in places:
+                        error("Country not in records, try again!")
+                    else:
+                        return visual_choice, place_choice, country_choice
+
+            elif place_choice == "r":
+                while True:
+                    places = prc.unique_places("r", records)
+                    region_choice = input("Please enter a region you'd like to graph by \nUser Input:")
+                    if region_choice not in places:
+                        error("Region not in records, try again!")
+                    else:
+                        return visual_choice, place_choice, region_choice
+
+            elif place_choice == "a":
+                place = None
+                return visual_choice, place_choice, place
+
             else:
                 error("Wrong Input\n")
 

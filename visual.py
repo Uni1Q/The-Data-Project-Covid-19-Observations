@@ -151,7 +151,11 @@ def animate_graph(records):
     global y_data, x_labels
     y_data = []
     x_labels = []
+    global x1, y1
+    x1 = []
+    y1 = []
 
+#_________________________________________________ALL COUNTRIES/REGIONS_________________________________________________
     if place_choice == "a":
         if visual_choice == "c":
 
@@ -169,7 +173,7 @@ def animate_graph(records):
                 y_data.append(dates[i][1])
             for i in range(len(dates)):
                 x_labels.append(dates[i][0])
-
+            plt.title("Confirmed cases for all Countries")
             all_cases_for_countries_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
 
         elif visual_choice == "d":
@@ -189,7 +193,7 @@ def animate_graph(records):
                 y_data.append(dates[i][1])
             for i in range(len(dates)):
                 x_labels.append(dates[i][0])
-
+            plt.title("Deaths for all Countries")
             all_deaths_for_countries_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
 
         elif visual_choice == "r":
@@ -209,93 +213,162 @@ def animate_graph(records):
                 y_data.append(dates[i][1])
             for i in range(len(dates)):
                 x_labels.append(dates[i][0])
-
+            plt.title("Recoveries for all Countries")
             all_recoveries_for_countries_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
+
+#_________________________________________________SPECIFIC COUNTRY_________________________________________________
 
     elif place_choice == "c":
         if visual_choice == "c":
-            pass
+
+            for date in country_records:
+                if date.last_update not in updates:
+                    updates.append([date.last_update])
+            dates = [i for n, i in enumerate(updates) if i not in updates[:n]]
+
+            for i in range(len(dates)):
+                dates[i].append(0)
+
+            for i in range(len(dates)):
+                for j in range(len(records)):
+                    if place == records[j][3]:
+                        if dates[i][0] == records[j][4]:
+                            total_for_update += int(records[j][5])
+                            dates[i][1] += total_for_update
+
+            for i in range(len(dates)):
+                y_data.append(dates[i][1])
+            for i in range(len(dates)):
+                x_labels.append(dates[i][0])
+
+            plt.title(f"Confirmed cases for {place}")
+            cases_for_specific_country_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
 
         elif visual_choice == "d":
-            pass
+            for date in country_records:
+                if date.last_update not in updates:
+                    updates.append([date.last_update])
+            dates = [i for n, i in enumerate(updates) if i not in updates[:n]]
+
+            for i in range(len(dates)):
+                dates[i].append(0)
+
+            for i in range(len(dates)):
+                for j in range(len(records)):
+                    if place == records[j][3]:
+                        if dates[i][0] == records[j][4]:
+                            total_for_update += int(records[j][6])
+                            dates[i][1] += total_for_update
+
+            for i in range(len(dates)):
+                y_data.append(dates[i][1])
+            for i in range(len(dates)):
+                x_labels.append(dates[i][0])
+
+            plt.title(f"Confirmed deaths for {place}")
+            deaths_for_specific_country_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
 
         elif visual_choice == "r":
-            pass
+            for date in country_records:
+                if date.last_update not in updates:
+                    updates.append([date.last_update])
+            dates = [i for n, i in enumerate(updates) if i not in updates[:n]]
+
+            for i in range(len(dates)):
+                dates[i].append(0)
+
+            for i in range(len(dates)):
+                for j in range(len(records)):
+                    if place == records[j][3]:
+                        if dates[i][0] == records[j][4]:
+                            total_for_update += int(records[j][7])
+                            dates[i][1] += total_for_update
+
+            for i in range(len(dates)):
+                y_data.append(dates[i][1])
+            for i in range(len(dates)):
+                x_labels.append(dates[i][0])
+
+            plt.title(f"Recoveries for {place}")
+            recoveries_for_specific_country_animation = animation.FuncAnimation(fig, animate, frames=len(dates),interval=100, repeat=False)
+
+#_________________________________________________SPECIFIC REGION_________________________________________________
 
     elif place_choice == "r":
         if visual_choice == "c":
-            pass
+            for date in country_records:
+                if date.last_update not in updates:
+                    updates.append([date.last_update])
+            dates = [i for n, i in enumerate(updates) if i not in updates[:n]]
+
+            for i in range(len(dates)):
+                dates[i].append(0)
+
+            for i in range(len(dates)):
+                for j in range(len(records)):
+                    if place == records[j][2]:
+                        if dates[i][0] == records[j][4]:
+                            total_for_update += int(records[j][5])
+                            dates[i][1] += total_for_update
+
+            for i in range(len(dates)):
+                y_data.append(dates[i][1])
+            for i in range(len(dates)):
+                x_labels.append(dates[i][0])
+
+            plt.title(f"Confirmed cases for {place}")
+            cases_for_specific_region_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
 
         elif visual_choice == "d":
-            pass
+            for date in country_records:
+                if date.last_update not in updates:
+                    updates.append([date.last_update])
+            dates = [i for n, i in enumerate(updates) if i not in updates[:n]]
+
+            for i in range(len(dates)):
+                dates[i].append(0)
+
+            for i in range(len(dates)):
+                for j in range(len(records)):
+                    if place == records[j][2]:
+                        if dates[i][0] == records[j][4]:
+                            total_for_update += int(records[j][6])
+                            dates[i][1] += total_for_update
+
+            for i in range(len(dates)):
+                y_data.append(dates[i][1])
+            for i in range(len(dates)):
+                x_labels.append(dates[i][0])
+
+            plt.title(f"Confirmed deaths for {place}")
+            deaths_for_specific_region_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
 
         elif visual_choice == "r":
-            pass
+            for date in country_records:
+                if date.last_update not in updates:
+                    updates.append([date.last_update])
+            dates = [i for n, i in enumerate(updates) if i not in updates[:n]]
+
+            for i in range(len(dates)):
+                dates[i].append(0)
+
+            for i in range(len(dates)):
+                for j in range(len(records)):
+                    if place == records[j][2]:
+                        if dates[i][0] == records[j][4]:
+                            total_for_update += int(records[j][7])
+                            dates[i][1] += total_for_update
+
+            for i in range(len(dates)):
+                y_data.append(dates[i][1])
+            for i in range(len(dates)):
+                x_labels.append(dates[i][0])
+
+            plt.title(f"Recoveries for {place}")
+            recoveries_for_specific_region_animation = animation.FuncAnimation(fig, animate, frames=len(dates), interval=100, repeat=False)
 
     plt.show()
-    '''if visual_choice == "c":
-        for cases in country_records:
-            total += cases.cases
-
-        for date in country_records:
-            if date.last_update not in updates:
-                updates.append([date.last_update])
-        dates = [i for n, i in enumerate(updates) if i not in updates[:n]]
-
-        for i in range(len(dates)):
-            for j in range(len(records)):
-                if dates[i][0] == records[j][4]:
-                    total_for_update += int(records[j][5])
-            dates[i].append(total_for_update)
-
-        global y_data
-        y_data = []
-        global x_labels
-        x_labels = []
-        for i in range(len(dates)):
-            y_data.append(dates[i][1])
-        for i in range(len(dates)):
-            x_labels.append(dates[i][0])
-
-        cases_animation = animation.FuncAnimation(fig, animate, frames = len(dates), interval = 100, repeat = False)
-        plt.show()
-
-    elif visual_choice == "d":
-        for deaths in country_records:
-            total += deaths.deaths
-
-        for date in country_records:
-            if date.last_update not in updates:
-                updates.append([date.last_update])
-
-        for i in range(len(updates)):
-            for j in range(len(records)):
-                if updates[i][0] == records[j][4]:
-                    total_for_update += int(records[j][6])
-            updates[i].append(total_for_update)
-            total_for_update = 0
-
-        dates = [ii for n, ii in enumerate(updates) if ii not in updates[:n]]
-
-    elif visual_choice == "r":
-        for recoveries in country_records:
-            total += recoveries.recovered
-
-        for date in country_records:
-            if date.last_update not in updates:
-                updates.append([date.last_update])
-
-        for i in range(len(updates)):
-            for j in range(len(records)):
-                if updates[i][0] == records[j][4]:
-                    total_for_update += int(records[j][7])
-            updates[i].append(total_for_update)
-            total_for_update = 0
-
-        dates = [ii for n, ii in enumerate(updates) if ii not in updates[:n]]'''
-
-x1 = []
-y1 = []
+    plt.clf()
 
 
 def animate(frame):
@@ -303,4 +376,4 @@ def animate(frame):
     x1.append(x_labels[frame])
     y1.append(y_data[frame])
 
-    ax.plot(x1, y1, "r--")
+    ax.plot(x1, y1, "r-")
