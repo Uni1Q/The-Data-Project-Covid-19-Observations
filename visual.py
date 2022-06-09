@@ -25,6 +25,7 @@ def pie_chart(records):
 
     visual_choice = tui.visual_country()
     country_records, region_records = prc.summary(records)
+    tui.progress("Displaying pie chart", 0)
 
     if visual_choice == "c":
         fig, axs = plt.subplots()
@@ -75,6 +76,7 @@ def pie_chart(records):
         plt.tight_layout()
 
     plt.show()
+    tui.progress("Displaying pie chart", 100)
 
 
 def bar_chart(records):
@@ -90,6 +92,8 @@ def bar_chart(records):
     top_places = []
     top_place_data = []
     count = 0
+
+    tui.progress("Displaying bar chart", 0)
 
     if place_choice == "c":
         if exclude_china == "n":
@@ -108,7 +112,7 @@ def bar_chart(records):
                     top_places.append(country.name)
                     top_place_data.append(country.cases)
                     count += 1
-            plt.title("Top 5 countries by cases (excluding China)")
+            plt.title("Top 5 countries by cases (excluding Mainland China)")
 
     elif place_choice == "r":
         if exclude_china == "n":
@@ -128,13 +132,14 @@ def bar_chart(records):
                     top_places.append(region.name)
                     top_place_data.append(region.cases)
                     count += 1
-            plt.title("Top 5 regions by cases (excluding China)")
+            plt.title("Top 5 regions by cases (excluding Mainland China)")
 
     plt.bar(top_places, top_place_data, color = "#87eab1")
 
     plt.xlabel("Countries")
     plt.ylabel("Cases")
     plt.show()
+    tui.progress("Displaying bar chart", 100)
 
 
 def animate_graph(records):
@@ -154,7 +159,7 @@ def animate_graph(records):
     global x1, y1
     x1 = []
     y1 = []
-
+    tui.progress("Displaying animated graph", 0)
 #_________________________________________________ALL COUNTRIES/REGIONS_________________________________________________
     if place_choice == "a":
         if visual_choice == "c":
@@ -369,6 +374,7 @@ def animate_graph(records):
 
     plt.show()
     plt.clf()
+    tui.progress("Displaying animated graph", 100)
 
 
 def animate(frame):
